@@ -37,8 +37,7 @@
   --red:#e05252;--red-light-l:#fdf2f2;--red-light-d:rgba(224,82,82,0.12);
   --amber:#f59e0b;--amber-light-l:#fffbeb;--amber-light-d:rgba(245,158,11,0.12);
   --blue:#0077b6;--blue-light-l:#e0f4fb;--blue-light-d:rgba(0,119,182,0.15);
-  /* CHANGED: trip color → blue instead of violet */
-  --trip:#0077b6;--trip-light-l:#e0f4fb;--trip-light-d:rgba(0,180,216,0.12);
+  --trip:#00B4D8;--trip-light-l:#f5f3ff;--trip-light-d:rgba(124,58,237,0.12);
   --r:22px;--r-sm:14px;--r-xs:8px;
   --font-display:'Nunito',sans-serif;--font-body:'Space Grotesk',sans-serif;
 }
@@ -111,6 +110,8 @@ header{background:var(--header-bg);backdrop-filter:blur(24px) saturate(180%);bor
 .user-chip{font-weight:800;font-size:0.78rem;padding:0.38rem 0.95rem;border-radius:50px;font-family:var(--font-display);letter-spacing:0.2px;}
 [data-theme="light"] .user-chip{background:linear-gradient(135deg,#03045e,#0077b6);color:#caf0f8;}
 [data-theme="dark"] .user-chip{background:linear-gradient(135deg,#0077b6,#00b4d8);color:#03045e;}
+.logout-btn{background:var(--card2);border:1.5px solid var(--border);border-radius:50px;width:32px;height:32px;display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:1rem;color:var(--txt3);transition:all 0.2s;padding:0;}
+.logout-btn:hover{background:var(--red-light);border-color:var(--red);color:var(--red);}
 nav{display:flex;gap:2px;overflow-x:auto;}
 nav::-webkit-scrollbar{height:0;}
 .nav-btn{flex:1;min-width:fit-content;padding:0.65rem 0.5rem 0.78rem;border:none;background:none;font-family:var(--font-display);font-size:0.82rem;font-weight:700;color:var(--txt3);cursor:pointer;display:flex;align-items:center;justify-content:center;gap:0.4rem;transition:all 0.22s;border-bottom:2.5px solid transparent;border-radius:var(--r-xs) var(--r-xs) 0 0;white-space:nowrap;}
@@ -249,8 +250,7 @@ input:focus,select:focus,textarea:focus{border-color:#00b4d8;background:var(--in
 .ti-borr{background:#fde8e8;border:1px solid #fca5a5;}
 [data-theme="dark"] .ti-borr{background:rgba(224,82,82,0.12);border-color:rgba(224,82,82,0.2);}
 .ti-debt{background:var(--amber-light);border:1px solid rgba(245,158,11,0.3);}
-/* CHANGED: ti-trip now uses blue instead of purple */
-.ti-trip{background:var(--blue-light);border:1px solid rgba(0,119,182,0.2);}
+.ti-trip{background:var(--trip-light);border:1px solid rgba(124,58,237,0.2);}
 .tx-info{flex:1;min-width:0;}
 .tx-desc{font-size:0.88rem;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
 .tx-meta{font-size:0.7rem;color:var(--txt3);margin-top:0.15rem;}
@@ -338,11 +338,32 @@ input:focus,select:focus,textarea:focus{border-color:#00b4d8;background:var(--in
 .sync-row{display:flex;align-items:center;gap:0.5rem;margin-top:0.65rem;min-height:18px;}
 .sync-txt{font-size:0.7rem;color:var(--txt3);}
 
-/* ===== TRIPBOOK — CHANGED TO BLUE THEME ===== */
-/* CHANGED: trip-header now uses blue gradient (same as an-header) */
+/* ===== TRIPBOOK ===== */
 .trip-header{border-radius:var(--r);padding:1.6rem;margin-bottom:1.25rem;color:#fff;position:relative;overflow:hidden;}
-[data-theme="light"] .trip-header{background:linear-gradient(135deg,#03045e 0%,#0077b6 50%,#00b4d8 100%);box-shadow:0 10px 36px rgba(3,4,94,0.35);}
-[data-theme="dark"] .trip-header{background:linear-gradient(135deg,#020d2a 0%,#03134a 50%,#0077b6 100%);box-shadow:0 10px 36px rgba(0,0,0,0.4);}
+/* --- Converted Blue Theme --- */
+/* Based on Uxintace Blue Palette (image_1.png) */
+
+/* Light Theme: Moving from Deep Navy to Bright Teal */
+[data-theme="light"] .trip-header {
+  background: linear-gradient(
+    135deg,
+    #03045E 0%,   /* Original Palette Top: Deep Navy */
+    #0077B6 50%,  /* Original Palette Mid: True Blue */
+    #00B4D8 100%  /* Original Palette Mid: Bright Teal */
+  );
+  box-shadow: 0 10px 36px rgba(3, 4, 94, 0.3); /* Adjusted Shadow to match #03045E */
+}
+
+/* Dark Theme: Moody Midnight Blue to Deep Ocean Blue */
+[data-theme="dark"] .trip-header {
+  background: linear-gradient(
+    135deg,
+    #03045E 0%,   /* Original Palette Top: Midnight Base */
+    #0077B6 50%,  /* Original Palette Mid: Core Deep Blue */
+    #0077B6 100%  /* Keeping the bright end dark for better eye comfort */
+  );
+  box-shadow: 0 10px 36px rgba(0, 0, 0, 0.5); /* Heavy dark shadow */
+}
 .trip-header::before{content:'';position:absolute;inset:0;background:url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.04'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");}
 .trip-header-content{position:relative;z-index:1;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:1rem;}
 .trip-header-title{font-family:var(--font-display);font-size:1.3rem;font-weight:900;}
@@ -352,23 +373,19 @@ input:focus,select:focus,textarea:focus{border-color:#00b4d8;background:var(--in
 .events-grid{display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-bottom:1.25rem;}
 @media(max-width:600px){.events-grid{grid-template-columns:1fr;}}
 .event-card{background:var(--card);border:1px solid var(--border);border-radius:var(--r);padding:1.3rem;box-shadow:var(--shadow);cursor:pointer;transition:all 0.25s;position:relative;overflow:hidden;}
-/* CHANGED: event-card accent bar → blue */
-.event-card::before{content:'';position:absolute;top:0;left:0;width:4px;height:100%;background:linear-gradient(180deg,#0077b6,#00b4d8);}
-/* CHANGED: event-card hover border → blue */
-.event-card:hover{transform:translateY(-3px);box-shadow:var(--shadow-lg);border-color:rgba(0,119,182,0.3);}
-/* CHANGED: event-card-type text → blue */
-.event-card-type{font-size:0.65rem;font-weight:700;color:#0077b6;text-transform:uppercase;letter-spacing:1px;margin-bottom:0.3rem;display:flex;align-items:center;gap:0.3rem;}
-[data-theme="dark"] .event-card-type{color:#00b4d8;}
+.event-card::before{content:'';position:absolute;top:0;left:0;width:4px;height:100%;background:linear-gradient(180deg,#00B4D8,#90E0EF);}
+.event-card:hover{transform:translateY(-3px);box-shadow:var(--shadow-lg);border-color:rgba(124,58,237,0.3);}
+.event-card-type{font-size:0.65rem;font-weight:700;color:#00B4D8;text-transform:uppercase;letter-spacing:1px;margin-bottom:0.3rem;display:flex;align-items:center;gap:0.3rem;}
+[data-theme="dark"] .event-card-type{color:#90E0EF;}
 .event-card-name{font-family:var(--font-display);font-size:1.05rem;font-weight:800;color:var(--txt);margin-bottom:0.3rem;}
 .event-card-date{font-size:0.72rem;color:var(--txt3);margin-bottom:0.9rem;}
 .event-card-stats{display:flex;gap:0.75rem;flex-wrap:wrap;}
 .ec-stat{font-size:0.74rem;color:var(--txt2);}
 .ec-stat span{font-weight:800;color:var(--txt);}
 .event-card-footer{display:flex;align-items:center;justify-content:space-between;margin-top:0.9rem;padding-top:0.7rem;border-top:1px solid var(--border);}
-/* CHANGED: ec-open button → blue */
-.ec-open{background:var(--trip-light);color:#0077b6;border:none;border-radius:50px;padding:0.32rem 0.9rem;font-size:0.75rem;font-weight:700;font-family:var(--font-display);cursor:pointer;transition:all 0.2s;}
-[data-theme="dark"] .ec-open{color:#00b4d8;}
-.ec-open:hover{background:rgba(0,119,182,0.15);}
+.ec-open{background:var(--trip-light);color:#00B4D8;border:none;border-radius:50px;padding:0.32rem 0.9rem;font-size:0.75rem;font-weight:700;font-family:var(--font-display);cursor:pointer;transition:all 0.2s;}
+[data-theme="dark"] .ec-open{color:#90E0EF;}
+.ec-open:hover{background:rgba(124,58,237,0.2);}
 .ec-del{background:var(--red-light);color:var(--red);border:none;border-radius:50px;padding:0.32rem 0.7rem;font-size:0.72rem;font-weight:700;cursor:pointer;transition:opacity 0.2s;}
 .ec-del:hover{opacity:0.7;}
 
@@ -387,20 +404,17 @@ input:focus,select:focus,textarea:focus{border-color:#00b4d8;background:var(--in
 .ev-sc-lbl{font-size:0.67rem;font-weight:700;color:var(--txt2);text-transform:uppercase;letter-spacing:0.9px;margin-bottom:0.35rem;}
 .ev-sc-val{font-family:var(--font-display);font-size:1.4rem;font-weight:900;}
 .ev-contrib-list{margin-bottom:1.25rem;}
-/* CHANGED: contrib-item → blue tones */
-.contrib-item{display:flex;align-items:center;justify-content:space-between;padding:0.7rem 0.8rem;background:var(--trip-light);border:1px solid rgba(0,119,182,0.15);border-radius:var(--r-sm);margin-bottom:0.5rem;}
-[data-theme="dark"] .contrib-item{background:rgba(0,180,216,0.08);}
+.contrib-item{display:flex;align-items:center;justify-content:space-between;padding:0.7rem 0.8rem;background:var(--trip-light);border:1px solid rgba(124,58,237,0.15);border-radius:var(--r-sm);margin-bottom:0.5rem;}
+[data-theme="dark"] .contrib-item{background:rgba(124,58,237,0.08);}
 .contrib-name{font-weight:700;font-size:0.88rem;}
-/* CHANGED: contrib-amt → blue */
-.contrib-amt{font-family:var(--font-display);font-weight:800;font-size:0.95rem;color:#0077b6;}
-[data-theme="dark"] .contrib-amt{color:#00b4d8;}
+.contrib-amt{font-family:var(--font-display);font-weight:800;font-size:0.95rem;color:#00B4D8;}
+[data-theme="dark"] .contrib-amt{color:#90E0EF;}
 
 /* CREATE EVENT MODAL */
 .type-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:0.6rem;margin-top:0.4rem;}
 .type-btn{border:1.5px solid var(--border);background:var(--card2);border-radius:var(--r-sm);padding:0.7rem 0.5rem;cursor:pointer;text-align:center;transition:all 0.2s;font-family:var(--font-display);font-size:0.78rem;font-weight:700;color:var(--txt2);}
-/* CHANGED: type-btn.active → blue */
-.type-btn.active{border-color:#0077b6;background:var(--trip-light);color:#0077b6;}
-[data-theme="dark"] .type-btn.active{color:#00b4d8;border-color:#00b4d8;}
+.type-btn.active{border-color:#00B4D8;background:var(--trip-light);color:#00B4D8;}
+[data-theme="dark"] .type-btn.active{color:#90E0EF;}
 .type-btn:hover:not(.active){background:var(--hover-bg);}
 .type-btn-icon{display:block;font-size:1.4rem;margin-bottom:0.3rem;}
 
@@ -450,6 +464,28 @@ input:focus,select:focus,textarea:focus{border-color:#00b4d8;background:var(--in
 [data-theme="dark"] #toast{background:linear-gradient(135deg,#0077b6,#00b4d8);color:#03045e;}
 #toast.show{transform:translateX(-50%) translateY(0);}
 ::-webkit-scrollbar{width:6px;}::-webkit-scrollbar-thumb{background:var(--border);border-radius:3px;}
+
+/* TRIP TABLE */
+.trip-table{width:100%;border-collapse:collapse;font-size:0.82rem;}
+.trip-table th{background:linear-gradient(90deg,#03045e,#0077b6);color:#fff;padding:0.65rem 0.9rem;text-align:left;font-family:var(--font-display);font-size:0.75rem;}
+.trip-table td{padding:0.65rem 0.9rem;border-bottom:1px solid var(--border);color:var(--txt);transition:background 0.2s;}
+.trip-table tr:hover td{background:var(--hover-bg);}
+.trip-empty-row{text-align:center;color:var(--txt3);padding:1.5rem!important;font-style:italic;}
+.trip-table-total{text-align:right;padding:0.75rem 0.9rem;font-size:0.85rem;color:var(--txt2);border-top:2px solid var(--border);margin-top:0.5rem;}
+.trip-fam-tag{display:inline-flex;align-items:center;gap:0.5rem;background:var(--accent-bg);border:1px solid var(--border2);border-radius:50px;padding:0.32rem 0.8rem;font-size:0.77rem;font-weight:700;color:var(--txt2);}
+.trip-fam-tag button{background:none;border:none;cursor:pointer;color:var(--red);font-size:0.85rem;padding:0;line-height:1;}
+.settle-pay{color:var(--red);font-weight:800;}
+.settle-refund{color:#22c55e;font-weight:800;}
+.settle-ok{color:var(--txt3);font-weight:600;}
+/* CALCULATOR MODAL */
+#calc-modal{display:none;position:fixed;z-index:2000;inset:0;background:rgba(3,4,94,0.6);backdrop-filter:blur(8px);align-items:center;justify-content:center;}
+#calc-modal.show{display:flex;}
+.calc-box{background:var(--navy,#03045e);width:300px;padding:1.5rem;border-radius:20px;border:2px solid #00b4d8;position:relative;}
+.calc-screen{width:100%;font-size:2rem;text-align:right;margin-bottom:1rem;padding:0.65rem 0.9rem;border-radius:10px;border:none;background:var(--ice,#caf0f8);color:#03045e;font-family:var(--font-display);font-weight:800;box-sizing:border-box;}
+.calc-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:7px;margin-bottom:0.75rem;}
+.calc-grid button{padding:0.9rem;border-radius:8px;border:none;font-weight:800;font-size:0.95rem;cursor:pointer;background:#0077b6;color:#fff;font-family:var(--font-display);transition:background 0.15s;}
+.calc-grid button:hover{background:#00b4d8;}
+.calc-close-btn{width:100%;margin-top:4px;background:#e63946;border:none;color:#fff;padding:0.65rem;border-radius:8px;font-weight:800;cursor:pointer;font-family:var(--font-display);}
 </style>
 </head>
 <body>
@@ -495,6 +531,7 @@ input:focus,select:focus,textarea:focus{border-color:#00b4d8;background:var(--in
           <span id="gs-lbl">Sheets</span>
         </div>
         <div class="user-chip" id="user-chip">User</div>
+        <button class="logout-btn" onclick="logoutUser()" title="Logout">⏻</button>
       </div>
     </div>
     <nav>
@@ -682,79 +719,143 @@ input:focus,select:focus,textarea:focus{border-color:#00b4d8;background:var(--in
 
     <!-- ── TRIPBOOK TAB ── -->
     <div id="tab-events" class="tab">
-      <div id="events-list-view">
-        <div class="trip-header">
-          <div class="trip-header-content">
-            <div>
-              <div class="trip-header-title">🗺️ TripBook</div>
-              <div class="trip-header-sub">Track expenses for trips, events &amp; outings — all in one place</div>
-            </div>
-            <button class="btn-create-trip" onclick="document.getElementById('create-event-modal').classList.add('show')">+ Create Event / Trip</button>
+      <!-- Trip Header -->
+      <div class="trip-header">
+        <div class="trip-header-content">
+          <div>
+            <div class="trip-header-title">🗺️ TripBook Pro</div>
+            <div class="trip-header-sub">Split group trip expenses fairly — families, advances &amp; settlement</div>
           </div>
-        </div>
-        <div id="events-grid" class="events-grid"></div>
-        <div id="events-empty" class="card" style="display:none">
-          <div class="empty-msg"><span class="empty-icon">🗺️</span>No trips or events yet.<br>Create one to start tracking!</div>
+          <div style="display:flex;gap:0.6rem;align-items:center;flex-wrap:wrap;">
+            <div style="background:rgba(255,255,255,0.15);border:1px solid rgba(255,255,255,0.25);border-radius:50px;padding:0.38rem 1rem;font-size:0.8rem;font-weight:700;color:#fff;backdrop-filter:blur(8px);">
+              👥 <span id="trip-member-count">0</span> Members
+            </div>
+            <button class="btn-create-trip" onclick="toggleCalcModal(true)">🖩 Calculator</button>
+          </div>
         </div>
       </div>
 
-      <div id="event-detail">
-        <div class="ev-detail-header">
-          <button class="ev-back-btn" onclick="closeEventDetail()">← Back to Events</button>
-          <div class="ev-name-area">
-            <div class="ev-name" id="ev-detail-name">Event Name</div>
-            <div class="ev-meta" id="ev-detail-meta">—</div>
+      <!-- Summary Strip -->
+      <div class="ev-sum-strip">
+        <div class="ev-sum-card"><div class="ev-sc-lbl">Total Expenses</div><div class="ev-sc-val" id="trip-total-exp" style="color:var(--red)">₹0.00</div></div>
+        <div class="ev-sum-card"><div class="ev-sc-lbl">Cost Per Person</div><div class="ev-sc-val" id="trip-cpp" style="color:var(--inc-color)">₹0.00</div></div>
+        <div class="ev-sum-card"><div class="ev-sc-lbl">Total Advance</div><div class="ev-sc-val" id="trip-total-adv" style="color:#0077b6">₹0.00</div></div>
+      </div>
+
+      <!-- Manage Families -->
+      <div class="card">
+        <div class="card-title" onclick="toggleTripSection('fam-section')" style="cursor:pointer;user-select:none;">
+          👥 Manage Families <span id="fam-section-chev" style="font-size:0.75rem;margin-left:auto;color:var(--txt3);">▼</span>
+        </div>
+        <div id="fam-section" style="display:none;">
+          <div class="form-grid" style="margin-bottom:1rem;">
+            <div class="form-group"><label>Family / Group Name</label>
+              <input type="text" id="trip-fname" placeholder="e.g. Ravi Family"></div>
+            <div class="form-group"><label>Number of Members</label>
+              <input type="number" id="trip-fcount" placeholder="e.g. 4" min="1"></div>
+            <div class="form-group" style="justify-content:flex-end;">
+              <button class="btn-add" onclick="addTripFamily()" style="margin-top:auto;">+ Add Family</button>
+            </div>
           </div>
-        </div>
-        <div class="ev-sum-strip">
-          <div class="ev-sum-card"><div class="ev-sc-lbl">Total Collected</div><div class="ev-sc-val" id="ev-total-in" style="color:var(--inc-color)">₹0</div></div>
-          <div class="ev-sum-card"><div class="ev-sc-lbl">Total Spent</div><div class="ev-sc-val" id="ev-total-exp" style="color:var(--red)">₹0</div></div>
-          <div class="ev-sum-card"><div class="ev-sc-lbl">Balance Left</div><div class="ev-sc-val" id="ev-balance" style="color:#0077b6">₹0</div></div>
-        </div>
-        <div class="card">
-          <div class="card-title">➕ Add Expense / Contribution</div>
-          <div class="form-grid">
-            <div class="form-group"><label>Type</label>
-              <select id="ev-type">
-                <option value="Expense">💸 Expense (Money Spent)</option>
-                <option value="Contribution">💰 Contribution (Someone Paid In)</option>
-              </select></div>
-            <div class="form-group"><label>Amount (₹)</label>
-              <input type="number" id="ev-amount" placeholder="0.00" min="0" step="0.01"></div>
-            <div class="form-group"><label>Description</label>
-              <input type="text" id="ev-desc" placeholder="e.g. Dinner, Hotel room…"></div>
-            <div class="form-group"><label>Person (Who paid / contributed?)</label>
-              <input type="text" id="ev-person" placeholder="e.g. Ravi, Everyone…"></div>
-            <div class="form-group"><label>Category</label>
-              <select id="ev-category" onchange="checkCustomCat('ev-category','ev-custom-cat')">
-                <option value="Food">🍽 Food</option>
-                <option value="Petrol">⛽ Petrol</option>
-                <option value="Snacks">🍿 Snacks</option>
-                <option value="Room / Stay">🏨 Room / Stay</option>
-                <option value="Shopping">🛍 Shopping</option>
-                <option value="Transport">🚌 Transport</option>
-                <option value="Entertainment">🎡 Entertainment</option>
-                <option value="Entry / Tickets">🎟 Entry / Tickets</option>
-                <option value="Others">📦 Others</option>
-                <option value="__custom__">✏️ Add Custom Category…</option>
-              </select>
-              <input type="text" class="custom-cat-input" id="ev-custom-cat" placeholder="Type your custom category…"></div>
-            <div class="form-group"><label>Date</label>
-              <input type="date" id="ev-date"></div>
-          </div>
-          <button class="btn-add" onclick="addEventTx()">+ Add Entry</button>
-          <div class="sync-row"><div class="gdot" id="sd-ev"></div><span class="sync-txt" id="st-ev"></span></div>
-        </div>
-        <div class="card">
-          <div class="card-title">👥 Contributor Summary</div>
-          <div id="ev-contrib-list"><div class="empty-msg" style="padding:1.5rem">No contributions yet.</div></div>
-        </div>
-        <div class="card">
-          <div class="card-title">📋 Event Transactions</div>
-          <div id="ev-tx-list"></div>
+          <div id="trip-fam-list" style="display:flex;flex-wrap:wrap;gap:0.5rem;min-height:10px;"></div>
         </div>
       </div>
-    </div>
+
+      <!-- Tabs: Expense / Advance -->
+      <div class="subtab-row">
+        <button class="stab active" id="trip-tab-exp" onclick="switchTripTab('expense')">💸 Add Expense</button>
+        <button class="stab" id="trip-tab-adv" onclick="switchTripTab('advance')">📥 Add Advance</button>
+      </div>
+
+      <!-- Expense Form -->
+      <div id="trip-expense-form" class="card">
+        <div class="card-title">💸 Expense Details</div>
+        <div class="form-grid">
+          <div class="form-group"><label>Category</label>
+            <select id="trip-exp-cat" onchange="checkCustomCat('trip-exp-cat','trip-exp-custom')">
+              <option value="Food">🍔 Food</option>
+              <option value="Travel">🚗 Travel</option>
+              <option value="Stay">🏨 Stay / Hotel</option>
+              <option value="Petrol">⛽ Petrol</option>
+              <option value="Snacks">🍿 Snacks</option>
+              <option value="Shopping">🛍 Shopping</option>
+              <option value="Entry">🎟 Entry / Tickets</option>
+              <option value="Entertainment">🎡 Entertainment</option>
+              <option value="__custom__">✏️ Custom…</option>
+            </select>
+            <input type="text" class="custom-cat-input" id="trip-exp-custom" placeholder="Type category…">
+          </div>
+          <div class="form-group"><label>Amount (₹)</label>
+            <input type="number" id="trip-exp-amt" placeholder="0.00" min="0" step="0.01"></div>
+          <div class="form-group"><label>Paid By</label>
+            <select id="trip-exp-payer"><option value="Common">Common Group</option></select></div>
+          <div class="form-group"><label>Description (optional)</label>
+            <input type="text" id="trip-exp-desc" placeholder="What was this for?"></div>
+        </div>
+        <button class="btn-add" onclick="addTripExpense()">Save Expense</button>
+        <div class="sync-row"><div class="gdot" id="sd-trip"></div><span class="sync-txt" id="st-trip"></span></div>
+      </div>
+
+      <!-- Advance Form -->
+      <div id="trip-advance-form" class="card" style="display:none;">
+        <div class="card-title">📥 Advance Contribution</div>
+        <div class="form-grid">
+          <div class="form-group"><label>Family Name</label>
+            <select id="trip-adv-payer"><option value="" disabled selected>Select Family</option></select></div>
+          <div class="form-group"><label>Amount (₹)</label>
+            <input type="number" id="trip-adv-amt" placeholder="0.00" min="0" step="0.01"></div>
+          <div class="form-group" style="grid-column:1/-1"><label>Note (optional)</label>
+            <input type="text" id="trip-adv-desc" placeholder="e.g. Cash handed over"></div>
+        </div>
+        <button class="btn-add" style="background:var(--brand3);" onclick="addTripAdvance()">Save Advance</button>
+        <div class="sync-row"><div class="gdot" id="sd-trip-adv"></div><span class="sync-txt" id="st-trip-adv"></span></div>
+      </div>
+
+      <!-- Trip Statement -->
+      <div class="card">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1rem;">
+          <div class="card-title" style="margin-bottom:0;">📊 Trip Statement</div>
+          <button onclick="window.print()" style="border:none;background:none;color:var(--txt2);font-weight:700;font-size:0.8rem;cursor:pointer;font-family:var(--font-display);">🖨 PDF Report</button>
+        </div>
+        <div class="subtab-row" style="margin-bottom:1rem;">
+          <button class="stab active" id="tview-exp" onclick="switchTripView('expenses')">Expenses</button>
+          <button class="stab" id="tview-adv" onclick="switchTripView('advances')">Advances</button>
+          <button class="stab" id="tview-settle" onclick="switchTripView('settlement')">Settlement</button>
+        </div>
+
+        <!-- Expenses Table -->
+        <div id="trip-view-expenses">
+          <div style="font-size:0.8rem;font-weight:700;color:var(--txt2);margin-bottom:0.75rem;">Detailed Expenses</div>
+          <div style="overflow-x:auto;">
+            <table class="trip-table">
+              <thead><tr><th>Time</th><th>Payer</th><th>Category</th><th>Amount</th><th>Note</th><th class="no-print">Action</th></tr></thead>
+              <tbody id="trip-exp-body"><tr><td colspan="6" class="trip-empty-row">No expenses yet.</td></tr></tbody>
+            </table>
+          </div>
+          <div class="trip-table-total"><strong>Total Expenses:</strong> ₹<span id="trip-exp-total-disp">0.00</span></div>
+        </div>
+
+        <!-- Advances Table -->
+        <div id="trip-view-advances" style="display:none;">
+          <div style="font-size:0.8rem;font-weight:700;color:var(--txt2);margin-bottom:0.75rem;">Advance Payments</div>
+          <div style="overflow-x:auto;">
+            <table class="trip-table">
+              <thead><tr><th>Time</th><th>Family</th><th>Note</th><th>Amount</th><th class="no-print">Action</th></tr></thead>
+              <tbody id="trip-adv-body"><tr><td colspan="5" class="trip-empty-row">No advances yet.</td></tr></tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- Settlement Table -->
+        <div id="trip-view-settlement" style="display:none;">
+          <div style="font-size:0.8rem;font-weight:700;color:var(--txt2);margin-bottom:0.75rem;">Final Settlement</div>
+          <div style="overflow-x:auto;">
+            <table class="trip-table">
+              <thead><tr><th>Family</th><th>Members</th><th>Advance Paid</th><th>Share (Target)</th><th>Balance</th></tr></thead>
+              <tbody id="trip-settle-body"><tr><td colspan="5" class="trip-empty-row">Add families and expenses to see settlement.</td></tr></tbody>
+            </table>
+          </div>
+        </div>
 
     <!-- ── ABOUT TAB ── -->
     <div id="tab-about" class="tab">
@@ -773,11 +874,17 @@ input:focus,select:focus,textarea:focus{border-color:#00b4d8;background:var(--in
           </div>
         </div>
       </div>
+
+      <!-- Team Card -->
       <div class="about-team-card">
         <div class="about-team-name">👑 Team Tech Royal</div>
         <div class="about-team-tagline">Engineering excellence with a royal touch</div>
-        <p class="about-team-para">Team Tech Royal is a passionate collective of developers and designers who believe that great software should be both powerful and beautiful. We are dedicated to building tools that simplify everyday challenges — whether it's tracking your finances, managing projects, or automating workflows. Our philosophy is simple: technology should serve people elegantly, not overwhelm them.</p>
-        <p class="about-team-para" style="margin-bottom:0;"><em style="color:var(--txt3);font-size:0.82rem;">✏️ Replace this paragraph with your own team description and member details.</em></p>
+        <p class="about-team-para">
+          Team Tech Royal is a passionate collective of developers and designers who believe that great software should be both powerful and beautiful. We are dedicated to building tools that simplify everyday challenges — whether it's tracking your finances, managing projects, or automating workflows. Our philosophy is simple: technology should serve people elegantly, not overwhelm them.
+        </p>
+        <p class="about-team-para" style="margin-bottom:0;">
+          <em style="color:var(--txt3);font-size:0.82rem;">✏️ Replace this paragraph with your own team description and member details.</em>
+        </p>
         <div class="about-tech-row">
           <span class="about-tech-pill">⚡ Vanilla JS</span>
           <span class="about-tech-pill">🎨 CSS3 Variables</span>
@@ -787,6 +894,8 @@ input:focus,select:focus,textarea:focus{border-color:#00b4d8;background:var(--in
           <span class="about-tech-pill">🔒 Privacy-First</span>
         </div>
       </div>
+
+      <!-- Feature cards -->
       <div class="about-features-grid">
         <div class="about-feat"><span class="about-feat-ico">🗂</span><div class="about-feat-name">Tracker</div><div class="about-feat-sub">Log income &amp; expenses with categories</div></div>
         <div class="about-feat"><span class="about-feat-ico">📊</span><div class="about-feat-name">Analytics</div><div class="about-feat-sub">Charts, trends &amp; smart insights</div></div>
@@ -797,13 +906,17 @@ input:focus,select:focus,textarea:focus{border-color:#00b4d8;background:var(--in
         <div class="about-feat"><span class="about-feat-ico">🌙</span><div class="about-feat-name">Dark Mode</div><div class="about-feat-sub">Beautiful light &amp; dark themes</div></div>
         <div class="about-feat"><span class="about-feat-ico">🔒</span><div class="about-feat-name">Private</div><div class="about-feat-sub">All data stored on your device only</div></div>
       </div>
+
+      <!-- Version / info bar -->
       <div class="about-version-bar">
-        <div class="about-ver-item"><div class="about-ver-label">Version</div><div class="about-ver-val">2.0.1</div></div>
+        <div class="about-ver-item"><div class="about-ver-label">Version</div><div class="about-ver-val">2.0.0</div></div>
         <div class="about-ver-item"><div class="about-ver-label">Platform</div><div class="about-ver-val">Web App</div></div>
         <div class="about-ver-item"><div class="about-ver-label">Storage</div><div class="about-ver-val">Local + Sheets</div></div>
         <div class="about-ver-item"><div class="about-ver-label">Currency</div><div class="about-ver-val">₹ Indian Rupee</div></div>
         <div class="about-ver-item"><div class="about-ver-label">Team</div><div class="about-ver-val">Tech Royal</div></div>
       </div>
+
+      <!-- About section cards -->
       <div class="about-section">
         <div class="about-card">
           <div class="about-card-icon">🔒</div>
@@ -836,117 +949,267 @@ input:focus,select:focus,textarea:focus{border-color:#00b4d8;background:var(--in
   <div class="modal">
     <h3>🔗 Google Sheets Sync</h3>
     <p>Connect your app to Google Sheets to back up all transactions automatically. Your data is <strong>always stored locally</strong> — Sheets sync is an optional cloud backup.</p>
+
     <div class="gs-storage-note">
       <strong>🔒 Local Storage is always ON</strong>
-      All your data is saved to your browser automatically. Google Sheets sync is an additional backup — completely optional.
+      All your data is saved to your browser automatically and will never be erased unless you clear your browser data. Google Sheets sync is an additional backup — completely optional.
     </div>
+
     <hr class="gs-divider">
+
     <div class="form-group" style="margin-bottom:1rem">
       <label>Web App URL</label>
       <input type="url" id="gs-url-input" placeholder="https://script.google.com/macros/s/…/exec">
     </div>
+
     <hr class="gs-divider">
+
     <div class="gs-section-toggle" onclick="toggleGsInstr()">
       <span class="gs-section-title">📖 Step-by-Step Google Sheets Setup Guide</span>
       <span id="gs-instr-chev">▼</span>
     </div>
     <div id="gs-instr-body" class="gs-section-body">
-      <div class="gs-warning-note">⚠️ <strong>Important:</strong> The script auto-creates sheets with correct headers on first sync. Do NOT add headers manually.</div>
-      <div class="gs-step"><div class="gs-step-num">1</div><div class="gs-step-text"><strong>Create a new Google Sheet</strong>Go to sheets.google.com → click "Blank" → name it anything. Leave completely empty.</div></div>
-      <div class="gs-step"><div class="gs-step-num">2</div><div class="gs-step-text"><strong>Open Apps Script Editor</strong>In your sheet: Extensions → Apps Script. Delete all default code.</div></div>
-      <div class="gs-step"><div class="gs-step-num">3</div><div class="gs-step-text"><strong>Paste the code below</strong></div></div>
+
+      <div class="gs-warning-note">
+        ⚠️ <strong>Important:</strong> When you deploy the script and add the first entry, it will automatically create all the required sheets with the correct column headers. You do NOT need to add headers manually — the script does it for you. If the sheet names already exist without headers, delete them and let the script recreate them.
+      </div>
+
+      <div class="gs-step">
+        <div class="gs-step-num">1</div>
+        <div class="gs-step-text"><strong>Create a new Google Sheet</strong>Go to <a href="https://sheets.google.com" target="_blank" style="color:#0077b6">sheets.google.com</a> → click <em>"Blank"</em> → name it anything (e.g. <em>"My Expense Tracker"</em>). Leave the sheet completely empty — do not add any headers or data.</div>
+      </div>
+
+      <div class="gs-step">
+        <div class="gs-step-num">2</div>
+        <div class="gs-step-text"><strong>Open Apps Script Editor</strong>In your sheet, click: <em>Extensions → Apps Script</em>. A new tab opens with a code editor showing a default <code>myFunction()</code>. Delete all of it.</div>
+      </div>
+
+      <div class="gs-step">
+        <div class="gs-step-num">3</div>
+        <div class="gs-step-text"><strong>Paste the Apps Script Code</strong>Copy the entire code below and paste it into the editor, replacing everything:</div>
+      </div>
+
       <div class="code-block">
-        <div class="code-header">Apps Script Code<button class="code-copy-btn" onclick="copyCode()">📋 Copy</button></div>
+        <div class="code-header">
+          Apps Script Code — paste this, replacing all existing code
+          <button class="code-copy-btn" onclick="copyCode()">📋 Copy Code</button>
+        </div>
         <div class="code-pre" id="apps-script-code">function doPost(e) {
   try {
     var data = JSON.parse(e.postData.contents);
     var ss = SpreadsheetApp.getActiveSpreadsheet();
     processData(ss, data);
-    return ContentService.createTextOutput(JSON.stringify({status:'ok'})).setMimeType(ContentService.MimeType.JSON);
+    return ContentService
+      .createTextOutput(JSON.stringify({status:'ok'}))
+      .setMimeType(ContentService.MimeType.JSON);
   } catch(err) {
-    return ContentService.createTextOutput(JSON.stringify({status:'error',msg:err.toString()})).setMimeType(ContentService.MimeType.JSON);
+    return ContentService
+      .createTextOutput(JSON.stringify({status:'error',msg:err.toString()}))
+      .setMimeType(ContentService.MimeType.JSON);
   }
 }
+
 function processData(ss, data) {
   if (data.sheet === 'tracker') {
-    var sh = getOrCreate(ss,'Transactions',['ID','Date','Description','Type','Category','Payment Method','Amount','User','Synced At']);
-    sh.appendRow([data.id,data.date,data.desc,data.type,data.category,data.method,data.amount,data.user,data.timestamp]);
+    var sh = getOrCreate(ss, 'Transactions',
+      ['ID','Date','Description','Type','Category',
+       'Payment Method','Amount','User','Synced At']);
+    sh.appendRow([data.id, data.date, data.desc, data.type,
+      data.category, data.method, data.amount,
+      data.user, data.timestamp]);
+
   } else if (data.sheet === 'savings') {
-    var sh = getOrCreate(ss,'Savings',['ID','Date','Amount','Note','User','Synced At']);
-    sh.appendRow([data.id,data.date,data.amount,data.note||'',data.user,data.timestamp]);
+    var sh = getOrCreate(ss, 'Savings',
+      ['ID','Date','Amount','Note','User','Synced At']);
+    sh.appendRow([data.id, data.date, data.amount,
+      data.note||'', data.user, data.timestamp]);
+
   } else if (data.sheet === 'debt') {
-    var sh = getOrCreate(ss,'Debts',['ID','Person','Amount','Type','Date','Note','Status','User','Synced At']);
-    sh.appendRow([data.id,data.name,data.amount,data.type,data.date,data.note||'',data.status,data.user,data.timestamp]);
+    var sh = getOrCreate(ss, 'Debts',
+      ['ID','Person','Amount','Type','Date',
+       'Note','Status','User','Synced At']);
+    sh.appendRow([data.id, data.name, data.amount,
+      data.type, data.date, data.note||'',
+      data.status, data.user, data.timestamp]);
+
   } else if (data.sheet === 'debt_update') {
     var sh = ss.getSheetByName('Debts');
-    if (sh) { var vals=sh.getDataRange().getValues(); for(var i=1;i<vals.length;i++){if(String(vals[i][0])===String(data.id)){sh.getRange(i+1,7).setValue('returned');sh.getRange(i+1,9).setValue(data.timestamp);break;}}}
+    if (sh) {
+      var vals = sh.getDataRange().getValues();
+      for (var i = 1; i < vals.length; i++) {
+        if (String(vals[i][0]) === String(data.id)) {
+          sh.getRange(i+1, 7).setValue('returned');
+          sh.getRange(i+1, 9).setValue(data.timestamp);
+          break;
+        }
+      }
+    }
+
+  } else if (data.sheet === 'trip_family') {
+    var sh = getOrCreate(ss, 'Trip Families',
+      ['ID','Family Name','Member Count','User','Synced At']);
+    sh.appendRow([data.id, data.familyName, data.count,
+      data.user, data.timestamp]);
+
+  } else if (data.sheet === 'trip_expense') {
+    var sh = getOrCreate(ss, 'Trip Expenses',
+      ['ID','Time','Category','Paid By','Amount','Description','User','Synced At']);
+    sh.appendRow([data.id, data.time, data.cat, data.payer,
+      data.amt, data.desc||'', data.user, data.timestamp]);
+
+  } else if (data.sheet === 'trip_advance') {
+    var sh = getOrCreate(ss, 'Trip Advances',
+      ['ID','Time','Family','Amount','Note','User','Synced At']);
+    sh.appendRow([data.id, data.time, data.payer,
+      data.amt, data.desc||'', data.user, data.timestamp]);
+
   } else if (data.sheet === 'event') {
-    var sh = getOrCreate(ss,'Events',['ID','Name','Date','Type','Description','User','Created At']);
-    sh.appendRow([data.id,data.name,data.date,data.eventType,data.description||'',data.user,data.timestamp]);
+    var sh = getOrCreate(ss, 'Events',
+      ['ID','Name','Date','Type',
+       'Description','User','Created At']);
+    sh.appendRow([data.id, data.name, data.date,
+      data.eventType, data.description||'',
+      data.user, data.timestamp]);
+
   } else if (data.sheet === 'event_tx') {
-    var sh = getOrCreate(ss,'Event Transactions',['Event ID','Event Name','TX ID','Date','Description','Type','Category','Amount','Person','User','Synced At']);
-    sh.appendRow([data.eventId,data.eventName,data.id,data.date,data.desc,data.type,data.category,data.amount,data.paidBy||'',data.user,data.timestamp]);
+    var sh = getOrCreate(ss, 'Event Transactions',
+      ['Event ID','Event Name','TX ID','Date',
+       'Description','Type','Category',
+       'Amount','Person','User','Synced At']);
+    sh.appendRow([data.eventId, data.eventName,
+      data.id, data.date, data.desc, data.type,
+      data.category, data.amount, data.paidBy||'',
+      data.user, data.timestamp]);
   }
 }
+
 function getOrCreate(ss, name, headers) {
   var sh = ss.getSheetByName(name);
-  if (!sh) { sh=ss.insertSheet(name); sh.appendRow(headers); sh.getRange(1,1,1,headers.length).setFontWeight('bold').setBackground('#03045e').setFontColor('#caf0f8'); sh.setFrozenRows(1); }
+  if (!sh) {
+    sh = ss.insertSheet(name);
+    sh.appendRow(headers);
+    sh.getRange(1,1,1,headers.length)
+      .setFontWeight('bold')
+      .setBackground('#03045e')
+      .setFontColor('#caf0f8');
+    sh.setFrozenRows(1);
+  }
   return sh;
 }
-function doGet(e) { return ContentService.createTextOutput('ExpenseTracker API Running!').setMimeType(ContentService.MimeType.TEXT); }</div>
+
+function doGet(e) {
+  return ContentService
+    .createTextOutput('ExpenseTracker API Running!')
+    .setMimeType(ContentService.MimeType.TEXT);
+}</div>
       </div>
-      <div class="gs-step"><div class="gs-step-num">4</div><div class="gs-step-text"><strong>Deploy</strong> → New deployment → Type: Web App → Execute as: Me → Access: Anyone → Deploy → Authorize.</div></div>
-      <div class="gs-step"><div class="gs-step-num">5</div><div class="gs-step-text"><strong>Copy the Web App URL</strong> and paste it in the field above.</div></div>
+
+      <div class="gs-step">
+        <div class="gs-step-num">4</div>
+        <div class="gs-step-text"><strong>Save &amp; Deploy the Script</strong>
+          Click <em>💾 Save</em> (Ctrl+S / Cmd+S). Then click <em>"Deploy" → "New deployment"</em>.<br><br>
+          → Set <em>Type</em> to <strong>Web App</strong><br>
+          → Set <em>"Execute as"</em> to <strong>Me</strong><br>
+          → Set <em>"Who has access"</em> to <strong>Anyone</strong><br>
+          → Click <strong>Deploy</strong> → authorize when asked (click "Review permissions" → choose your account → "Allow")
+        </div>
+      </div>
+
+      <div class="gs-step">
+        <div class="gs-step-num">5</div>
+        <div class="gs-step-text"><strong>Copy the Web App URL</strong>After deploying successfully, you will see a <em>"Web App URL"</em>. It looks exactly like:<br>
+          <code style="font-size:0.7rem;color:#0077b6;word-break:break-all;display:block;margin-top:0.35rem;padding:0.4rem 0.6rem;background:var(--bg2);border-radius:6px;">https://script.google.com/macros/s/AKfycbxXXXXXXXXXXXXXXXXXXX/exec</code>
+          Copy this entire URL.
+        </div>
+      </div>
+
+      <div class="gs-step">
+        <div class="gs-step-num">6</div>
+        <div class="gs-step-text"><strong>Paste URL here &amp; click "Save &amp; Connect"</strong>Come back here, paste the URL in the field above, and click <strong>"Save &amp; Connect"</strong>. Done! 🎉<br><br>The sheets below will be created <strong>automatically</strong> with formatted headers the first time each type of data is synced:</div>
+      </div>
+
+      <p style="font-size:0.8rem;color:var(--txt2);font-weight:800;margin:0.75rem 0 0.4rem;">📊 Sheets Created Automatically (with these exact column headers):</p>
+
+      <table class="gs-headers-table">
+        <tr><th>Sheet Name</th><th>Column Headers (auto-created)</th></tr>
+        <tr>
+          <td><strong>Transactions</strong></td>
+          <td>ID · Date · Description · Type · Category · Payment Method · Amount · User · Synced At</td>
+        </tr>
+        <tr>
+          <td><strong>Savings</strong></td>
+          <td>ID · Date · Amount · Note · User · Synced At</td>
+        </tr>
+        <tr>
+          <td><strong>Debts</strong></td>
+          <td>ID · Person · Amount · Type · Date · Note · Status · User · Synced At</td>
+        </tr>
+        <tr>
+          <td><strong>Events</strong></td>
+          <td>ID · Name · Date · Type · Description · User · Created At</td>
+        </tr>
+        <tr>
+          <td><strong>Event Transactions</strong></td>
+          <td>Event ID · Event Name · TX ID · Date · Description · Type · Category · Amount · Person · User · Synced At</td>
+        </tr>
+        <tr>
+          <td><strong>Trip Families</strong></td>
+          <td>ID · Family Name · Member Count · User · Synced At</td>
+        </tr>
+        <tr>
+          <td><strong>Trip Expenses</strong></td>
+          <td>ID · Time · Category · Paid By · Amount · Description · User · Synced At</td>
+        </tr>
+        <tr>
+          <td><strong>Trip Advances</strong></td>
+          <td>ID · Time · Family · Amount · Note · User · Synced At</td>
+        </tr>
+      </table>
+
+      <div class="gs-storage-note" style="margin-top:1rem;">
+        <strong>💡 Tip: Headers not appearing?</strong>
+        If you see data rows but no header row, it means a sheet with that name already existed. Delete that sheet tab in Google Sheets, then sync one more entry — the script will recreate it fresh with proper headers automatically.
+      </div>
     </div>
+
     <div class="modal-btns">
       <button class="btn-ghost" onclick="document.getElementById('gs-modal').classList.remove('show')">Cancel</button>
+      <button class="btn-ghost" onclick="disconnectSheet()" style="border-color:var(--red);color:var(--red);" title="Remove Google Sheets connection">🔌 Disconnect</button>
       <button class="btn-add" onclick="saveGSUrl()">Save &amp; Connect</button>
     </div>
   </div>
 </div>
 
 <!-- CREATE EVENT MODAL -->
-<div class="modal-back" id="create-event-modal">
-  <div class="modal">
-    <h3>🗺️ Create New Event / Trip</h3>
-    <p>Give your trip or event a name and we'll track all its expenses separately.</p>
-    <div class="form-grid">
-      <div class="form-group" style="grid-column:1/-1"><label>Event / Trip Name</label>
-        <input type="text" id="ce-name" placeholder="e.g. Goa Trip 2025, Ooty Vacation, Temple Visit…"></div>
-      <div class="form-group"><label>Date</label><input type="date" id="ce-date"></div>
-      <div class="form-group"><label>Duration / Days (optional)</label><input type="text" id="ce-duration" placeholder="e.g. 3 days, Weekend…"></div>
+<div class="modal-back" id="create-event-modal" style="display:none!important"></div>
+
+<!-- CALCULATOR MODAL -->
+<div id="calc-modal">
+  <div class="calc-box">
+    <span style="position:absolute;right:14px;top:10px;cursor:pointer;color:#caf0f8;font-size:1.1rem;" onclick="toggleCalcModal(false)">✖</span>
+    <input type="text" id="calc-screen" class="calc-screen" readonly placeholder="0">
+    <div class="calc-grid">
+      <button onclick="cIn('7')">7</button><button onclick="cIn('8')">8</button><button onclick="cIn('9')">9</button><button onclick="cIn('/')" style="background:#00b4d8;">÷</button>
+      <button onclick="cIn('4')">4</button><button onclick="cIn('5')">5</button><button onclick="cIn('6')">6</button><button onclick="cIn('*')" style="background:#00b4d8;">×</button>
+      <button onclick="cIn('1')">1</button><button onclick="cIn('2')">2</button><button onclick="cIn('3')">3</button><button onclick="cIn('-')" style="background:#00b4d8;">−</button>
+      <button onclick="cIn('0')">0</button><button onclick="cIn('.')">.</button><button onclick="evalCalc()" style="background:#90e0ef;color:#03045e;">=</button><button onclick="cIn('+')" style="background:#00b4d8;">+</button>
     </div>
-    <div class="form-group" style="margin-top:0.75rem"><label>Event Type</label>
-      <div class="type-grid">
-        <button class="type-btn active" data-type="Trip" onclick="selectEventType(this)"><span class="type-btn-icon">✈️</span>Trip</button>
-        <button class="type-btn" data-type="Pilgrimage" onclick="selectEventType(this)"><span class="type-btn-icon">🛕</span>Pilgrimage</button>
-        <button class="type-btn" data-type="Outing" onclick="selectEventType(this)"><span class="type-btn-icon">🌴</span>Outing</button>
-        <button class="type-btn" data-type="Festival" onclick="selectEventType(this)"><span class="type-btn-icon">🎉</span>Festival</button>
-        <button class="type-btn" data-type="Sports" onclick="selectEventType(this)"><span class="type-btn-icon">🏆</span>Sports</button>
-        <button class="type-btn" data-type="Other" onclick="selectEventType(this)"><span class="type-btn-icon">📌</span>Other</button>
-      </div>
-    </div>
-    <div class="form-group" style="margin-top:0.75rem"><label>Description (optional)</label>
-      <textarea id="ce-desc" placeholder="e.g. Family trip to Tirupati, Friends outing to beach…" style="height:60px"></textarea></div>
-    <div class="modal-btns">
-      <button class="btn-ghost" onclick="document.getElementById('create-event-modal').classList.remove('show')">Cancel</button>
-      <button class="btn-add" onclick="createEvent()">Create Event →</button>
-    </div>
+    <button class="calc-close-btn" onclick="document.getElementById('calc-screen').value=''">Clear</button>
   </div>
 </div>
 
 <div id="toast"></div>
 
 <script>
-const CAT_COLORS=['#0077b6','#03045e','#00b4d8','#90e0ef','#e05252','#7c3aed','#ec4899','#f59e0b','#06b6d4','#84cc16','#023e8a','#0096c7'];
+const CAT_COLORS=['#0077b6','#03045e','#00b4d8','#90e0ef','#e05252','#00B4D8','#ec4899','#f59e0b','#06b6d4','#84cc16','#023e8a','#0096c7'];
 
 let userName=localStorage.getItem('pet_name')||'';
 let transactions=JSON.parse(localStorage.getItem('pet_tx')||'[]');
 let debts=JSON.parse(localStorage.getItem('pet_debts')||'[]');
 let savings=JSON.parse(localStorage.getItem('pet_savings')||'[]');
 let events=JSON.parse(localStorage.getItem('pet_events')||'[]');
-// FIX: always load eventTx as plain object; keys will be strings after JSON parse
 let eventTx=JSON.parse(localStorage.getItem('pet_event_tx')||'{}');
+let tripData=JSON.parse(localStorage.getItem('pet_trip')||'{"families":[],"expenses":[],"advances":[]}');
 let gsUrl=localStorage.getItem('pet_gs')||'';
 let period='month';
 const charts={};
@@ -967,7 +1230,7 @@ document.getElementById('name-input').addEventListener('keydown',e=>{if(e.key===
 
 function setToday(){
   const t=new Date().toISOString().split('T')[0];
-  ['t-date','d-date','s-date','ev-date','ce-date'].forEach(id=>{const el=document.getElementById(id);if(el)el.value=t;});
+  ['t-date','d-date','s-date'].forEach(id=>{const el=document.getElementById(id);if(el)el.value=t;});
 }
 
 /* ── THEME ── */
@@ -993,7 +1256,7 @@ function launch(){
   setTimeout(()=>document.getElementById('intro').style.display='none',850);
   document.getElementById('app').classList.add('on');
   document.getElementById('user-chip').textContent=userName;
-  renderTracker();renderDebts();renderSavingsSummary();renderEventsList();
+  renderTracker();renderDebts();renderSavingsSummary();renderTripBook();
 }
 
 /* ── TABS ── */
@@ -1003,7 +1266,7 @@ function switchTab(n,btn){
   document.getElementById('tab-'+n).classList.add('active');
   btn.classList.add('active');
   if(n==='analytics') renderAnalytics();
-  if(n==='events') renderEventsList();
+  if(n==='events') renderTripBook();
 }
 function switchSubTab(n,btn){
   document.querySelectorAll('.sub-panel').forEach(p=>p.style.display='none');
@@ -1144,8 +1407,11 @@ function renderTracker(){
     list.innerHTML='<div class="empty-msg"><span class="empty-icon">🧾</span>No transactions this month.</div>';
     return;
   }
+
+  // Initialize open state (default both open)
   if(openSections['tx-exp']===undefined) openSections['tx-exp']=true;
   if(openSections['tx-inc']===undefined) openSections['tx-inc']=true;
+
   const expOpen=openSections['tx-exp'];
   const incOpen=openSections['tx-inc'];
 
@@ -1220,6 +1486,7 @@ function addDebt(){
   if(!name){showToast('⚠️ Enter person name');return;}
   if(!amount||amount<=0){showToast('⚠️ Enter valid amount');return;}
   if(!date){showToast('⚠️ Pick a date');return;}
+
   const debt={id:Date.now(),name,amount,type,date,note,status:'pending',returnDate:null,user:userName,txId:null};
   const autoTxId=Date.now()+1;
   let autoTx;
@@ -1289,177 +1556,168 @@ function renderDebts(){
   }).join('');
 }
 
-/* ── TRIPBOOK / EVENTS ──
-   FIX: All eventTx keys are stored/accessed as strings to match JSON parse behaviour.
-   String(id) ensures numeric IDs become "1234567890" keys, consistent after localStorage round-trip.
-*/
-const EVENT_ICONS={Trip:'✈️',Pilgrimage:'🛕',Outing:'🌴',Festival:'🎉',Sports:'🏆',Other:'📌'};
-
-function selectEventType(btn){
-  document.querySelectorAll('.type-btn').forEach(b=>b.classList.remove('active'));
-  btn.classList.add('active');
-  selectedEventType=btn.getAttribute('data-type');
+/* ── TRIPBOOK PRO ── */
+function toggleTripSection(id){
+  const el=document.getElementById(id);
+  const chev=document.getElementById(id+'-chev');
+  const isOpen=el.style.display!=='none';
+  el.style.display=isOpen?'none':'block';
+  if(chev) chev.textContent=isOpen?'▼':'▲';
 }
-
-function createEvent(){
-  const name=document.getElementById('ce-name').value.trim();
-  const date=document.getElementById('ce-date').value;
-  const duration=document.getElementById('ce-duration').value.trim();
-  const desc=document.getElementById('ce-desc').value.trim();
-  if(!name){showToast('⚠️ Enter an event name');return;}
-  if(!date){showToast('⚠️ Pick a date');return;}
-  const ev={id:Date.now(),name,date,eventType:selectedEventType,duration,description:desc,createdAt:new Date().toISOString()};
-  events.push(ev);
-  // FIX: use String key so it survives JSON serialisation
-  eventTx[String(ev.id)]=[];
-  save();
-  document.getElementById('create-event-modal').classList.remove('show');
-  clearCreateEventForm();
-  renderEventsList();
-  showToast('✓ Event "'+name+'" created!');
-  syncSheet('event',{...ev,user:userName,timestamp:new Date().toISOString()},'','');
+function switchTripTab(type){
+  const isExp=type==='expense';
+  document.getElementById('trip-expense-form').style.display=isExp?'block':'none';
+  document.getElementById('trip-advance-form').style.display=isExp?'none':'block';
+  document.getElementById('trip-tab-exp').classList.toggle('active',isExp);
+  document.getElementById('trip-tab-adv').classList.toggle('active',!isExp);
 }
-
-function clearCreateEventForm(){
-  document.getElementById('ce-name').value='';document.getElementById('ce-duration').value='';
-  document.getElementById('ce-desc').value='';selectedEventType='Trip';
-  document.querySelectorAll('.type-btn').forEach(b=>b.classList.remove('active'));
-  const tripBtn=document.querySelector('.type-btn[data-type="Trip"]');
-  if(tripBtn) tripBtn.classList.add('active');
-  setToday();
-}
-
-function deleteEvent(id,e){
-  e.stopPropagation();
-  if(!confirm('Delete this event and all its transactions?')) return;
-  events=events.filter(ev=>ev.id!==id);
-  // FIX: delete by string key
-  delete eventTx[String(id)];
-  save();renderEventsList();showToast('🗑 Event deleted');
-}
-
-function renderEventsList(){
-  const grid=document.getElementById('events-grid');
-  const empty=document.getElementById('events-empty');
-  if(!events.length){grid.innerHTML='';empty.style.display='block';return;}
-  empty.style.display='none';
-  grid.innerHTML=[...events].sort((a,b)=>new Date(b.date)-new Date(a.date)).map(ev=>{
-    // FIX: use String key
-    const txList=eventTx[String(ev.id)]||[];
-    const totalIn=txList.filter(t=>t.type==='Contribution').reduce((s,t)=>s+t.amount,0);
-    const totalExp=txList.filter(t=>t.type==='Expense').reduce((s,t)=>s+t.amount,0);
-    const icon=EVENT_ICONS[ev.eventType]||'📌';
-    return`<div class="event-card" onclick="openEventDetail(${ev.id})">
-      <div class="event-card-type">${icon} ${ev.eventType}</div>
-      <div class="event-card-name">${esc(ev.name)}</div>
-      <div class="event-card-date">${fd(ev.date)}${ev.duration?' · '+esc(ev.duration):''}</div>
-      <div class="event-card-stats">
-        <div class="ec-stat">Spent: <span style="color:var(--red)">₹${f2(totalExp)}</span></div>
-        <div class="ec-stat">Collected: <span style="color:var(--inc-color)">₹${f2(totalIn)}</span></div>
-        <div class="ec-stat">Entries: <span>${txList.length}</span></div>
-      </div>
-      <div class="event-card-footer">
-        <button class="ec-open" onclick="event.stopPropagation();openEventDetail(${ev.id})">Open →</button>
-        <button class="ec-del" onclick="deleteEvent(${ev.id},event)">🗑</button>
-      </div>
-    </div>`;
-  }).join('');
-}
-
-function openEventDetail(id){
-  currentEventId=id;
-  const ev=events.find(e=>e.id===id);if(!ev) return;
-  document.getElementById('events-list-view').style.display='none';
-  document.getElementById('event-detail').classList.add('show');
-  document.getElementById('ev-detail-name').textContent=(EVENT_ICONS[ev.eventType]||'📌')+' '+ev.name;
-  document.getElementById('ev-detail-meta').textContent=fd(ev.date)+(ev.duration?' · '+ev.duration:'')+(ev.description?' · '+ev.description:'');
-  document.getElementById('ev-date').value=ev.date;
-  renderEventDetail();
-}
-
-function closeEventDetail(){
-  currentEventId=null;
-  document.getElementById('events-list-view').style.display='block';
-  document.getElementById('event-detail').classList.remove('show');
-  renderEventsList();
-}
-
-function renderEventDetail(){
-  const id=currentEventId;if(!id) return;
-  // FIX: use String key
-  const txList=eventTx[String(id)]||[];
-  const totalIn=txList.filter(t=>t.type==='Contribution').reduce((s,t)=>s+t.amount,0);
-  const totalExp=txList.filter(t=>t.type==='Expense').reduce((s,t)=>s+t.amount,0);
-  const bal=totalIn-totalExp;
-  document.getElementById('ev-total-in').textContent='₹'+f2(totalIn);
-  document.getElementById('ev-total-exp').textContent='₹'+f2(totalExp);
-  const balEl=document.getElementById('ev-balance');
-  balEl.textContent='₹'+f2(Math.abs(bal));
-  balEl.style.color=bal>=0?'#0077b6':'var(--red)';
-
-  const contribs={};
-  txList.filter(t=>t.type==='Contribution').forEach(t=>{
-    const p=t.paidBy||'Unknown';
-    contribs[p]=(contribs[p]||0)+t.amount;
+function switchTripView(view){
+  ['expenses','advances','settlement'].forEach(v=>{
+    document.getElementById('trip-view-'+v).style.display=v===view?'block':'none';
+    document.getElementById('tview-'+{expenses:'exp',advances:'adv',settlement:'settle'}[v]).classList.toggle('active',v===view);
   });
-  const cl=document.getElementById('ev-contrib-list');
-  const cKeys=Object.keys(contribs);
-  if(!cKeys.length){cl.innerHTML='<div class="empty-msg" style="padding:1rem">No contributions yet.</div>';}
-  else{cl.innerHTML=cKeys.map(k=>`<div class="contrib-item"><span class="contrib-name">👤 ${esc(k)}</span><span class="contrib-amt">+₹${f2(contribs[k])}</span></div>`).join('');}
+}
+function addTripFamily(){
+  const name=document.getElementById('trip-fname').value.trim();
+  const count=parseInt(document.getElementById('trip-fcount').value);
+  if(!name){showToast('⚠️ Enter a family name');return;}
+  if(!count||count<1){showToast('⚠️ Enter member count');return;}
+  if(tripData.families.find(f=>f.name.toLowerCase()===name.toLowerCase())){showToast('⚠️ Family already exists');return;}
+  tripData.families.push({id:Date.now(),name,count});
+  document.getElementById('trip-fname').value='';
+  document.getElementById('trip-fcount').value='';
+  save();renderTripBook();
+  showToast('✓ Family added!');
+  syncSheet('trip_family',{id:Date.now(),familyName:name,count,user:userName,timestamp:new Date().toISOString()},'','');
+}
+function removeTripFamily(id){
+  tripData.families=tripData.families.filter(f=>f.id!==id);
+  save();renderTripBook();showToast('🗑 Family removed');
+}
+function addTripExpense(){
+  const amt=parseFloat(document.getElementById('trip-exp-amt').value);
+  if(!amt||amt<=0){showToast('⚠️ Enter a valid amount');return;}
+  const cat=getCatValue('trip-exp-cat','trip-exp-custom');
+  const payer=document.getElementById('trip-exp-payer').value;
+  const desc=document.getElementById('trip-exp-desc').value.trim();
+  const time=new Date().toLocaleString('en-IN',{hour:'2-digit',minute:'2-digit',day:'2-digit',month:'2-digit'});
+  const entry={id:Date.now(),time,cat,payer,amt,desc};
+  tripData.expenses.push(entry);
+  document.getElementById('trip-exp-amt').value='';
+  document.getElementById('trip-exp-desc').value='';
+  save();renderTripBook();
+  showToast('✓ Expense saved!');
+  syncSheet('trip_expense',{...entry,user:userName,timestamp:new Date().toISOString()},'sd-trip','st-trip');
+}
+function addTripAdvance(){
+  const amt=parseFloat(document.getElementById('trip-adv-amt').value);
+  const payer=document.getElementById('trip-adv-payer').value;
+  const desc=document.getElementById('trip-adv-desc').value.trim();
+  if(!amt||amt<=0){showToast('⚠️ Enter a valid amount');return;}
+  if(!payer){showToast('⚠️ Select a family');return;}
+  const time=new Date().toLocaleString('en-IN',{hour:'2-digit',minute:'2-digit',day:'2-digit',month:'2-digit'});
+  const entry={id:Date.now(),time,payer,amt,desc};
+  tripData.advances.push(entry);
+  document.getElementById('trip-adv-amt').value='';
+  document.getElementById('trip-adv-desc').value='';
+  save();renderTripBook();
+  showToast('✓ Advance saved!');
+  syncSheet('trip_advance',{...entry,user:userName,timestamp:new Date().toISOString()},'sd-trip-adv','st-trip-adv');
+}
+function deleteTripItem(type,id){
+  if(type==='e') tripData.expenses=tripData.expenses.filter(x=>x.id!==id);
+  else tripData.advances=tripData.advances.filter(x=>x.id!==id);
+  save();renderTripBook();showToast('🗑 Deleted');
+}
+function renderTripBook(){
+  const families=tripData.families;
+  const expenses=tripData.expenses;
+  const advances=tripData.advances;
+  const totalMembers=families.reduce((s,f)=>s+f.count,0);
+  const totalExp=expenses.reduce((s,e)=>s+e.amt,0);
+  const totalAdv=advances.reduce((s,a)=>s+a.amt,0);
+  const cpp=totalMembers>0?totalExp/totalMembers:0;
 
-  const txEl=document.getElementById('ev-tx-list');
-  if(!txList.length){txEl.innerHTML='<div class="empty-msg"><span class="empty-icon">🗺️</span>No entries yet. Add an expense or contribution above!</div>';return;}
-  txEl.innerHTML=[...txList].sort((a,b)=>new Date(b.date)-new Date(a.date)).map(t=>`
-    <div class="tx-item">
-      <div class="tx-ico ${t.type==='Contribution'?'ti-inc':'ti-exp'}">${t.type==='Contribution'?'💰':'💸'}</div>
-      <div class="tx-info">
-        <div class="tx-desc">${esc(t.desc)}</div>
-        <div class="tx-meta">${t.category}${t.paidBy?' · 👤 '+esc(t.paidBy):''}</div>
-      </div>
-      <div class="tx-right">
-        <div class="tx-amt" style="color:${t.type==='Contribution'?'var(--inc-color)':'var(--red)'}">${t.type==='Contribution'?'+':'-'}₹${f2(t.amount)}</div>
-        <div class="tx-dt">${fd(t.date)}</div>
-        <div class="tx-acts"><button class="bxs b-del" onclick="deleteEventTx(${t.id})">🗑</button></div>
-      </div>
-    </div>`).join('');
+  // Update summary
+  document.getElementById('trip-member-count').textContent=totalMembers;
+  document.getElementById('trip-total-exp').textContent='₹'+f2(totalExp);
+  document.getElementById('trip-cpp').textContent='₹'+f2(cpp);
+  document.getElementById('trip-total-adv').textContent='₹'+f2(totalAdv);
+
+  // Family list tags
+  const famList=document.getElementById('trip-fam-list');
+  famList.innerHTML=families.length?families.map(f=>`<div class="trip-fam-tag">
+    ${esc(f.name)} <span style="color:var(--txt3);font-weight:400;">(×${f.count})</span>
+    <button onclick="removeTripFamily(${f.id})" title="Remove">✖</button>
+  </div>`).join(''):'<span style="color:var(--txt3);font-size:0.8rem;">No families added yet.</span>';
+
+  // Payer dropdowns
+  const expPayer=document.getElementById('trip-exp-payer');
+  const advPayer=document.getElementById('trip-adv-payer');
+  const prevExpPayer=expPayer.value;
+  const prevAdvPayer=advPayer.value;
+  expPayer.innerHTML='<option value="Common">Common Group</option>'+families.map(f=>`<option value="${esc(f.name)}">${esc(f.name)}</option>`).join('');
+  advPayer.innerHTML='<option value="" disabled>Select Family</option>'+families.map(f=>`<option value="${esc(f.name)}">${esc(f.name)}</option>`).join('');
+  if(prevExpPayer) expPayer.value=prevExpPayer;
+  if(prevAdvPayer) advPayer.value=prevAdvPayer;
+
+  // Expense table
+  const expBody=document.getElementById('trip-exp-body');
+  expBody.innerHTML=expenses.length?expenses.map((e,i)=>`<tr>
+    <td>${esc(e.time)}</td><td>${esc(e.payer)}</td><td>${esc(e.cat)}</td>
+    <td>₹${f2(e.amt)}</td><td>${esc(e.desc||'—')}</td>
+    <td class="no-print"><button onclick="deleteTripItem('e',${e.id})" style="border:none;color:var(--red);cursor:pointer;background:none;font-size:1rem;">✖</button></td>
+  </tr>`).join(''):'<tr><td colspan="6" class="trip-empty-row">No expenses yet.</td></tr>';
+  document.getElementById('trip-exp-total-disp').textContent=f2(totalExp);
+
+  // Advance table
+  const advBody=document.getElementById('trip-adv-body');
+  advBody.innerHTML=advances.length?advances.map(a=>`<tr>
+    <td>${esc(a.time)}</td><td>${esc(a.payer)}</td><td>${esc(a.desc||'—')}</td>
+    <td>₹${f2(a.amt)}</td>
+    <td class="no-print"><button onclick="deleteTripItem('a',${a.id})" style="border:none;color:var(--red);cursor:pointer;background:none;font-size:1rem;">✖</button></td>
+  </tr>`).join(''):'<tr><td colspan="5" class="trip-empty-row">No advances yet.</td></tr>';
+
+  // Settlement table
+  const settleBody=document.getElementById('trip-settle-body');
+  if(!families.length){
+    settleBody.innerHTML='<tr><td colspan="5" class="trip-empty-row">Add families and expenses to see settlement.</td></tr>';
+  } else {
+    settleBody.innerHTML=families.map(f=>{
+      const paid=advances.filter(a=>a.payer===f.name).reduce((s,a)=>s+a.amt,0);
+      const target=cpp*f.count;
+      const bal=target-paid;
+      let balHtml;
+      if(Math.abs(bal)<0.5) balHtml=`<span class="settle-ok">✓ Settled</span>`;
+      else if(bal>0) balHtml=`<span class="settle-pay">Pay ₹${f2(bal)}</span>`;
+      else balHtml=`<span class="settle-refund">Refund ₹${f2(Math.abs(bal))}</span>`;
+      return`<tr>
+        <td><strong>${esc(f.name)}</strong></td>
+        <td>${f.count}</td>
+        <td>₹${f2(paid)}</td>
+        <td>₹${f2(target)}</td>
+        <td>${balHtml}</td>
+      </tr>`;
+    }).join('');
+  }
 }
 
-function addEventTx(){
-  const id=currentEventId;
-  if(!id){showToast('⚠️ No event selected');return;}
-  const type=document.getElementById('ev-type').value;
-  const amount=parseFloat(document.getElementById('ev-amount').value);
-  const desc=document.getElementById('ev-desc').value.trim();
-  const person=document.getElementById('ev-person').value.trim();
-  const cat=getCatValue('ev-category','ev-custom-cat');
-  const date=document.getElementById('ev-date').value;
-  if(!amount||amount<=0){showToast('⚠️ Enter a valid amount');return;}
-  if(!desc){showToast('⚠️ Enter a description');return;}
-  if(!date){showToast('⚠️ Pick a date');return;}
-  const tx={id:Date.now(),eventId:String(id),amount,desc,type,category:cat,paidBy:person,date};
-  // FIX: use String key consistently
-  const key=String(id);
-  if(!eventTx[key]) eventTx[key]=[];
-  eventTx[key].push(tx);
-  save();renderEventDetail();clearEventTxForm();
-  showToast('✓ Entry added!');
-  const ev=events.find(e=>e.id===id);
-  syncSheet('event_tx',{...tx,eventName:ev?ev.name:'',user:userName,timestamp:new Date().toISOString()},'sd-ev','st-ev');
+/* ── CALCULATOR ── */
+function toggleCalcModal(show){
+  document.getElementById('calc-modal').classList.toggle('show',show);
 }
+function cIn(v){
+  const s=document.getElementById('calc-screen');
+  s.value+=(s.value==='Err'?'':'')+v;
+}
+function evalCalc(){
+  const s=document.getElementById('calc-screen');
+  try{s.value=eval(s.value);}catch{s.value='Err';}
+}
+document.addEventListener('click',e=>{
+  if(e.target===document.getElementById('calc-modal')) toggleCalcModal(false);
+});
 
-function clearEventTxForm(){
-  document.getElementById('ev-amount').value='';document.getElementById('ev-desc').value='';
-  document.getElementById('ev-person').value='';document.getElementById('ev-type').value='Expense';
-  document.getElementById('ev-category').value='Food';
-  const c=document.getElementById('ev-custom-cat');if(c){c.value='';c.classList.remove('show');}
-}
-
-function deleteEventTx(txId){
-  if(!currentEventId) return;
-  const key=String(currentEventId);
-  eventTx[key]=(eventTx[key]||[]).filter(t=>t.id!==txId);
-  save();renderEventDetail();showToast('🗑 Deleted');
-}
 
 /* ── ANALYTICS ── */
 function setAnPeriod(p,btn){
@@ -1607,6 +1865,25 @@ function saveGSUrl(){
   document.getElementById('gs-modal').classList.remove('show');
   setGsDot('live','Connected');showToast('✓ Google Sheets connected!');
 }
+function disconnectSheet(){
+  if(!confirm('Remove Google Sheets connection? Your local data will NOT be deleted.')) return;
+  gsUrl='';localStorage.removeItem('pet_gs');
+  document.getElementById('gs-url-input').value='';
+  document.getElementById('gs-modal').classList.remove('show');
+  setGsDot('','Not connected');showToast('🔌 Google Sheets disconnected');
+}
+function logoutUser(){
+  if(!confirm('Log out? Your data is saved locally and will be here when you return.')) return;
+  userName='';
+  localStorage.removeItem('pet_name');
+  document.getElementById('app').classList.remove('on');
+  document.getElementById('app').style.display='none';
+  document.getElementById('intro').style.display='flex';
+  document.getElementById('intro').classList.remove('out');
+  document.getElementById('name-input').value='';
+  document.getElementById('name-input').style.borderColor='';
+  showToast('👋 Logged out. See you soon!');
+}
 async function syncSheet(type,data,dotId,textId){
   if(!gsUrl) return;
   if(dotId) setSyncSt(dotId,textId,'syncing','Syncing…');
@@ -1632,6 +1909,7 @@ function save(){
   localStorage.setItem('pet_savings',JSON.stringify(savings));
   localStorage.setItem('pet_events',JSON.stringify(events));
   localStorage.setItem('pet_event_tx',JSON.stringify(eventTx));
+  localStorage.setItem('pet_trip',JSON.stringify(tripData));
 }
 function esc(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
 function f2(n){return Number(n||0).toLocaleString('en-IN',{minimumFractionDigits:2,maximumFractionDigits:2});}
@@ -1639,7 +1917,6 @@ function fd(s){if(!s)return'';const d=new Date(s+'T00:00:00');return d.toLocaleD
 function showToast(msg){const t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');clearTimeout(t._t);t._t=setTimeout(()=>t.classList.remove('show'),2800);}
 
 document.getElementById('gs-modal').addEventListener('click',function(e){if(e.target===this)this.classList.remove('show');});
-document.getElementById('create-event-modal').addEventListener('click',function(e){if(e.target===this)this.classList.remove('show');});
 </script>
 </body>
 </html>
