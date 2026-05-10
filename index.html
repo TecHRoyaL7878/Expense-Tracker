@@ -465,7 +465,38 @@ input:focus,select:focus,textarea:focus{border-color:#00b4d8;background:var(--in
 #toast.show{transform:translateX(-50%) translateY(0);}
 ::-webkit-scrollbar{width:6px;}::-webkit-scrollbar-thumb{background:var(--border);border-radius:3px;}
 
-/* TRIP TABLE */
+/* TRIP FOLDERS */
+.trip-folders-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:1rem;margin-bottom:1.25rem;}
+.trip-folder-card{background:var(--card);border:1px solid var(--border);border-radius:var(--r);padding:1.3rem;box-shadow:var(--shadow);cursor:pointer;transition:all 0.25s;position:relative;overflow:hidden;}
+.trip-folder-card::before{content:'';position:absolute;top:0;left:0;width:100%;height:4px;background:linear-gradient(90deg,#03045e,#0077b6,#00b4d8);}
+.trip-folder-card:hover{transform:translateY(-4px);box-shadow:var(--shadow-lg);border-color:var(--border2);}
+.trip-folder-icon{font-size:2rem;margin-bottom:0.6rem;}
+.trip-folder-name{font-family:var(--font-display);font-size:1.05rem;font-weight:900;color:var(--txt);margin-bottom:0.25rem;}
+.trip-folder-days{font-size:0.75rem;color:var(--txt3);margin-bottom:0.8rem;}
+.trip-folder-stats{display:flex;gap:0.75rem;flex-wrap:wrap;margin-bottom:0.75rem;}
+.trip-folder-stat{font-size:0.73rem;color:var(--txt2);}
+.trip-folder-stat span{font-weight:800;color:var(--txt);}
+.trip-folder-footer{display:flex;align-items:center;justify-content:space-between;padding-top:0.7rem;border-top:1px solid var(--border);}
+.trip-folder-open{background:var(--accent-bg);color:var(--brand2);border:none;border-radius:50px;padding:0.3rem 0.9rem;font-size:0.75rem;font-weight:700;font-family:var(--font-display);cursor:pointer;transition:all 0.2s;}
+.trip-folder-open:hover{background:var(--hover-bg);}
+.trip-folder-del{background:var(--red-light);color:var(--red);border:none;border-radius:50px;padding:0.3rem 0.7rem;font-size:0.72rem;font-weight:700;cursor:pointer;transition:opacity 0.2s;}
+.trip-folder-del:hover{opacity:0.7;}
+/* EMOJI PICKER */
+.emoji-picker{display:flex;flex-wrap:wrap;gap:0.5rem;margin-top:0.4rem;}
+.emoji-btn{width:42px;height:42px;border:2px solid var(--border);border-radius:10px;background:var(--card2);font-size:1.3rem;cursor:pointer;transition:all 0.18s;display:flex;align-items:center;justify-content:center;}
+.emoji-btn.active{border-color:#00b4d8;background:var(--accent-bg);box-shadow:0 0 0 3px rgba(0,180,216,0.2);}
+.emoji-btn:hover:not(.active){border-color:var(--border2);background:var(--hover-bg);}
+@media print {
+  body * { visibility: hidden; }
+  #trip-statement-card, #trip-statement-card * { visibility: visible; }
+  #trip-statement-card { position: fixed; top: 0; left: 0; width: 100%; padding: 1.5rem; box-shadow: none; border: none; background: #fff; }
+  .no-print { display: none !important; }
+  .print-only-header { display: block !important; }
+  .trip-table th { background: #03045e !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  .settle-pay { color: #c0392b !important; }
+  .settle-refund { color: #16a34a !important; }
+  .trip-table-total { border-top: 2px solid #ccc; }
+}
 .trip-table{width:100%;border-collapse:collapse;font-size:0.82rem;}
 .trip-table th{background:linear-gradient(90deg,#03045e,#0077b6);color:#fff;padding:0.65rem 0.9rem;text-align:left;font-family:var(--font-display);font-size:0.75rem;}
 .trip-table td{padding:0.65rem 0.9rem;border-bottom:1px solid var(--border);color:var(--txt);transition:background 0.2s;}
@@ -719,143 +750,174 @@ input:focus,select:focus,textarea:focus{border-color:#00b4d8;background:var(--in
 
     <!-- ── TRIPBOOK TAB ── -->
     <div id="tab-events" class="tab">
-      <!-- Trip Header -->
-      <div class="trip-header">
-        <div class="trip-header-content">
-          <div>
-            <div class="trip-header-title">🗺️ TripBook Pro</div>
-            <div class="trip-header-sub">Split group trip expenses fairly — families, advances &amp; settlement</div>
-          </div>
-          <div style="display:flex;gap:0.6rem;align-items:center;flex-wrap:wrap;">
-            <div style="background:rgba(255,255,255,0.15);border:1px solid rgba(255,255,255,0.25);border-radius:50px;padding:0.38rem 1rem;font-size:0.8rem;font-weight:700;color:#fff;backdrop-filter:blur(8px);">
-              👥 <span id="trip-member-count">0</span> Members
+
+      <!-- ═══ TRIP LIST VIEW ═══ -->
+      <div id="trip-list-view">
+        <div class="trip-header">
+          <div class="trip-header-content">
+            <div>
+              <div class="trip-header-title">🗺️ TripBook Pro</div>
+              <div class="trip-header-sub">All your trips in one place — tap a trip to open it</div>
             </div>
-            <button class="btn-create-trip" onclick="toggleCalcModal(true)">🖩 Calculator</button>
+            <button class="btn-create-trip" onclick="openCreateTripModal()">+ New Trip</button>
           </div>
         </div>
-      </div>
 
-      <!-- Summary Strip -->
-      <div class="ev-sum-strip">
-        <div class="ev-sum-card"><div class="ev-sc-lbl">Total Expenses</div><div class="ev-sc-val" id="trip-total-exp" style="color:var(--red)">₹0.00</div></div>
-        <div class="ev-sum-card"><div class="ev-sc-lbl">Cost Per Person</div><div class="ev-sc-val" id="trip-cpp" style="color:var(--inc-color)">₹0.00</div></div>
-        <div class="ev-sum-card"><div class="ev-sc-lbl">Total Advance</div><div class="ev-sc-val" id="trip-total-adv" style="color:#0077b6">₹0.00</div></div>
-      </div>
-
-      <!-- Manage Families -->
-      <div class="card">
-        <div class="card-title" onclick="toggleTripSection('fam-section')" style="cursor:pointer;user-select:none;">
-          👥 Manage Families <span id="fam-section-chev" style="font-size:0.75rem;margin-left:auto;color:var(--txt3);">▼</span>
+        <!-- Trip folder grid -->
+        <div id="trip-folders-grid" class="trip-folders-grid"></div>
+        <div id="trip-folders-empty" class="card" style="display:none;">
+          <div class="empty-msg"><span class="empty-icon">🗺️</span>No trips yet.<br>Tap <strong>+ New Trip</strong> to create your first one!</div>
         </div>
-        <div id="fam-section" style="display:none;">
-          <div class="form-grid" style="margin-bottom:1rem;">
-            <div class="form-group"><label>Family / Group Name</label>
-              <input type="text" id="trip-fname" placeholder="e.g. Ravi Family"></div>
-            <div class="form-group"><label>Number of Members</label>
-              <input type="number" id="trip-fcount" placeholder="e.g. 4" min="1"></div>
-            <div class="form-group" style="justify-content:flex-end;">
-              <button class="btn-add" onclick="addTripFamily()" style="margin-top:auto;">+ Add Family</button>
+      </div>
+
+      <!-- ═══ TRIP DETAIL VIEW ═══ -->
+      <div id="trip-detail-view" style="display:none;">
+
+        <!-- Detail header -->
+        <div class="ev-detail-header no-print">
+          <button class="ev-back-btn" onclick="closeTripDetail()">← All Trips</button>
+          <div class="ev-name-area">
+            <div class="ev-name" id="trip-detail-name">Trip Name</div>
+            <div class="ev-meta" id="trip-detail-meta">—</div>
+          </div>
+          <button class="btn-create-trip" style="background:rgba(0,180,216,0.15);color:var(--txt);border-color:var(--border2);font-size:0.78rem;" onclick="toggleCalcModal(true)">🖩 Calc</button>
+        </div>
+
+        <!-- Summary Strip -->
+        <div class="ev-sum-strip">
+          <div class="ev-sum-card"><div class="ev-sc-lbl">Total Expenses</div><div class="ev-sc-val" id="trip-total-exp" style="color:var(--red)">₹0.00</div></div>
+          <div class="ev-sum-card"><div class="ev-sc-lbl">Share Per Person</div><div class="ev-sc-val" id="trip-cpp" style="color:var(--inc-color)">₹0.00</div></div>
+          <div class="ev-sum-card"><div class="ev-sc-lbl">Total Advance</div><div class="ev-sc-val" id="trip-total-adv" style="color:#0077b6">₹0.00</div></div>
+        </div>
+
+        <!-- Manage Families (no-print) -->
+        <div class="card no-print">
+          <div class="card-title" onclick="toggleTripSection('fam-section')" style="cursor:pointer;user-select:none;">
+            👥 Manage Families <span style="font-size:0.72rem;color:var(--txt3);margin-left:0.4rem;" id="trip-member-count-badge">0 members</span>
+            <span id="fam-section-chev" style="font-size:0.75rem;margin-left:auto;color:var(--txt3);">▼</span>
+          </div>
+          <div id="fam-section" style="display:none;">
+            <div class="form-grid" style="margin-bottom:1rem;">
+              <div class="form-group"><label>Family / Group Name</label>
+                <input type="text" id="trip-fname" placeholder="e.g. Ravi Family"></div>
+              <div class="form-group"><label>Number of Members</label>
+                <input type="number" id="trip-fcount" placeholder="e.g. 4" min="1"></div>
+              <div class="form-group" style="justify-content:flex-end;">
+                <button class="btn-add" onclick="addTripFamily()" style="margin-top:auto;">+ Add Family</button>
+              </div>
+            </div>
+            <div id="trip-fam-list" style="display:flex;flex-wrap:wrap;gap:0.5rem;min-height:10px;"></div>
+          </div>
+        </div>
+
+        <!-- Tabs: Expense / Advance (no-print) -->
+        <div class="subtab-row no-print">
+          <button class="stab active" id="trip-tab-exp" onclick="switchTripTab('expense')">💸 Add Expense</button>
+          <button class="stab" id="trip-tab-adv" onclick="switchTripTab('advance')">📥 Add Advance</button>
+        </div>
+
+        <!-- Expense Form (no-print) -->
+        <div id="trip-expense-form" class="card no-print">
+          <div class="card-title">💸 Expense Details</div>
+          <div class="form-grid">
+            <div class="form-group"><label>Category</label>
+              <select id="trip-exp-cat" onchange="checkCustomCat('trip-exp-cat','trip-exp-custom')">
+                <option value="Food">🍔 Food</option>
+                <option value="Travel">🚗 Travel</option>
+                <option value="Stay">🏨 Stay / Hotel</option>
+                <option value="Petrol">⛽ Petrol</option>
+                <option value="Snacks">🍿 Snacks</option>
+                <option value="Shopping">🛍 Shopping</option>
+                <option value="Entry">🎟 Entry / Tickets</option>
+                <option value="Entertainment">🎡 Entertainment</option>
+                <option value="__custom__">✏️ Custom…</option>
+              </select>
+              <input type="text" class="custom-cat-input" id="trip-exp-custom" placeholder="Type category…">
+            </div>
+            <div class="form-group"><label>Amount (₹)</label>
+              <input type="number" id="trip-exp-amt" placeholder="0.00" min="0" step="0.01"></div>
+            <div class="form-group"><label>Paid By</label>
+              <select id="trip-exp-payer"><option value="Common">Common Group</option></select></div>
+            <div class="form-group"><label>Description (optional)</label>
+              <input type="text" id="trip-exp-desc" placeholder="What was this for?"></div>
+          </div>
+          <button class="btn-add" onclick="addTripExpense()">Save Expense</button>
+          <div class="sync-row"><div class="gdot" id="sd-trip"></div><span class="sync-txt" id="st-trip"></span></div>
+        </div>
+
+        <!-- Advance Form (no-print) -->
+        <div id="trip-advance-form" class="card no-print" style="display:none;">
+          <div class="card-title">📥 Advance Contribution</div>
+          <div class="form-grid">
+            <div class="form-group"><label>Family Name</label>
+              <select id="trip-adv-payer"><option value="" disabled selected>Select Family</option></select></div>
+            <div class="form-group"><label>Amount (₹)</label>
+              <input type="number" id="trip-adv-amt" placeholder="0.00" min="0" step="0.01"></div>
+            <div class="form-group" style="grid-column:1/-1"><label>Note (optional)</label>
+              <input type="text" id="trip-adv-desc" placeholder="e.g. Cash handed over"></div>
+          </div>
+          <button class="btn-add" style="background:var(--brand3);" onclick="addTripAdvance()">Save Advance</button>
+          <div class="sync-row"><div class="gdot" id="sd-trip-adv"></div><span class="sync-txt" id="st-trip-adv"></span></div>
+        </div>
+
+        <!-- Trip Statement (print target) -->
+        <div class="card" id="trip-statement-card">
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1rem;" class="no-print">
+            <div class="card-title" style="margin-bottom:0;">📊 Trip Statement</div>
+            <button onclick="printTripStatement()" style="border:none;background:none;color:var(--txt2);font-weight:700;font-size:0.8rem;cursor:pointer;font-family:var(--font-display);">🖨 PDF Report</button>
+          </div>
+          <!-- Print header (only shown when printing) -->
+          <div class="print-only-header" style="display:none;">
+            <div style="font-size:1.3rem;font-weight:900;color:#03045e;" id="print-trip-name-header">Trip Statement</div>
+            <div style="font-size:0.85rem;color:#555;margin-bottom:0.5rem;" id="print-trip-meta-header"></div>
+          </div>
+
+          <div class="subtab-row no-print" style="margin-bottom:1rem;">
+            <button class="stab active" id="tview-exp" onclick="switchTripView('expenses')">Expenses</button>
+            <button class="stab" id="tview-adv" onclick="switchTripView('advances')">Advances</button>
+            <button class="stab" id="tview-settle" onclick="switchTripView('settlement')">Settlement</button>
+          </div>
+
+          <!-- Expenses Table -->
+          <div id="trip-view-expenses">
+            <div style="font-size:0.8rem;font-weight:700;color:var(--txt2);margin-bottom:0.75rem;">Detailed Expenses</div>
+            <div style="overflow-x:auto;">
+              <table class="trip-table">
+                <thead><tr><th>Time</th><th>Payer</th><th>Category</th><th>Amount</th><th>Note</th><th class="no-print">Action</th></tr></thead>
+                <tbody id="trip-exp-body"><tr><td colspan="6" class="trip-empty-row">No expenses yet.</td></tr></tbody>
+              </table>
+            </div>
+            <div class="trip-table-total">
+              <div><strong>Total Expenses:</strong> ₹<span id="trip-exp-total-disp">0.00</span></div>
+              <div style="margin-top:0.3rem;font-size:0.8rem;color:var(--txt2);">👥 Share Per Person: <strong style="color:var(--inc-color);">₹<span id="trip-share-per-person">0.00</span></strong> <span style="color:var(--txt3);font-size:0.75rem;" id="trip-spp-note"></span></div>
             </div>
           </div>
-          <div id="trip-fam-list" style="display:flex;flex-wrap:wrap;gap:0.5rem;min-height:10px;"></div>
-        </div>
-      </div>
 
-      <!-- Tabs: Expense / Advance -->
-      <div class="subtab-row">
-        <button class="stab active" id="trip-tab-exp" onclick="switchTripTab('expense')">💸 Add Expense</button>
-        <button class="stab" id="trip-tab-adv" onclick="switchTripTab('advance')">📥 Add Advance</button>
-      </div>
-
-      <!-- Expense Form -->
-      <div id="trip-expense-form" class="card">
-        <div class="card-title">💸 Expense Details</div>
-        <div class="form-grid">
-          <div class="form-group"><label>Category</label>
-            <select id="trip-exp-cat" onchange="checkCustomCat('trip-exp-cat','trip-exp-custom')">
-              <option value="Food">🍔 Food</option>
-              <option value="Travel">🚗 Travel</option>
-              <option value="Stay">🏨 Stay / Hotel</option>
-              <option value="Petrol">⛽ Petrol</option>
-              <option value="Snacks">🍿 Snacks</option>
-              <option value="Shopping">🛍 Shopping</option>
-              <option value="Entry">🎟 Entry / Tickets</option>
-              <option value="Entertainment">🎡 Entertainment</option>
-              <option value="__custom__">✏️ Custom…</option>
-            </select>
-            <input type="text" class="custom-cat-input" id="trip-exp-custom" placeholder="Type category…">
+          <!-- Advances Table -->
+          <div id="trip-view-advances" style="display:none;">
+            <div style="font-size:0.8rem;font-weight:700;color:var(--txt2);margin-bottom:0.75rem;">Advance Payments</div>
+            <div style="overflow-x:auto;">
+              <table class="trip-table">
+                <thead><tr><th>Time</th><th>Family</th><th>Note</th><th>Amount</th><th class="no-print">Action</th></tr></thead>
+                <tbody id="trip-adv-body"><tr><td colspan="5" class="trip-empty-row">No advances yet.</td></tr></tbody>
+              </table>
+            </div>
           </div>
-          <div class="form-group"><label>Amount (₹)</label>
-            <input type="number" id="trip-exp-amt" placeholder="0.00" min="0" step="0.01"></div>
-          <div class="form-group"><label>Paid By</label>
-            <select id="trip-exp-payer"><option value="Common">Common Group</option></select></div>
-          <div class="form-group"><label>Description (optional)</label>
-            <input type="text" id="trip-exp-desc" placeholder="What was this for?"></div>
-        </div>
-        <button class="btn-add" onclick="addTripExpense()">Save Expense</button>
-        <div class="sync-row"><div class="gdot" id="sd-trip"></div><span class="sync-txt" id="st-trip"></span></div>
-      </div>
 
-      <!-- Advance Form -->
-      <div id="trip-advance-form" class="card" style="display:none;">
-        <div class="card-title">📥 Advance Contribution</div>
-        <div class="form-grid">
-          <div class="form-group"><label>Family Name</label>
-            <select id="trip-adv-payer"><option value="" disabled selected>Select Family</option></select></div>
-          <div class="form-group"><label>Amount (₹)</label>
-            <input type="number" id="trip-adv-amt" placeholder="0.00" min="0" step="0.01"></div>
-          <div class="form-group" style="grid-column:1/-1"><label>Note (optional)</label>
-            <input type="text" id="trip-adv-desc" placeholder="e.g. Cash handed over"></div>
-        </div>
-        <button class="btn-add" style="background:var(--brand3);" onclick="addTripAdvance()">Save Advance</button>
-        <div class="sync-row"><div class="gdot" id="sd-trip-adv"></div><span class="sync-txt" id="st-trip-adv"></span></div>
-      </div>
-
-      <!-- Trip Statement -->
-      <div class="card">
-        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1rem;">
-          <div class="card-title" style="margin-bottom:0;">📊 Trip Statement</div>
-          <button onclick="window.print()" style="border:none;background:none;color:var(--txt2);font-weight:700;font-size:0.8rem;cursor:pointer;font-family:var(--font-display);">🖨 PDF Report</button>
-        </div>
-        <div class="subtab-row" style="margin-bottom:1rem;">
-          <button class="stab active" id="tview-exp" onclick="switchTripView('expenses')">Expenses</button>
-          <button class="stab" id="tview-adv" onclick="switchTripView('advances')">Advances</button>
-          <button class="stab" id="tview-settle" onclick="switchTripView('settlement')">Settlement</button>
-        </div>
-
-        <!-- Expenses Table -->
-        <div id="trip-view-expenses">
-          <div style="font-size:0.8rem;font-weight:700;color:var(--txt2);margin-bottom:0.75rem;">Detailed Expenses</div>
-          <div style="overflow-x:auto;">
-            <table class="trip-table">
-              <thead><tr><th>Time</th><th>Payer</th><th>Category</th><th>Amount</th><th>Note</th><th class="no-print">Action</th></tr></thead>
-              <tbody id="trip-exp-body"><tr><td colspan="6" class="trip-empty-row">No expenses yet.</td></tr></tbody>
-            </table>
+          <!-- Settlement Table -->
+          <div id="trip-view-settlement" style="display:none;">
+            <div style="font-size:0.8rem;font-weight:700;color:var(--txt2);margin-bottom:0.75rem;">Final Settlement</div>
+            <div style="overflow-x:auto;">
+              <table class="trip-table">
+                <thead><tr><th>Family</th><th>Members</th><th>Advance Paid</th><th>Share (Target)</th><th>Balance</th></tr></thead>
+                <tbody id="trip-settle-body"><tr><td colspan="5" class="trip-empty-row">Add families and expenses to see settlement.</td></tr></tbody>
+              </table>
+            </div>
           </div>
-          <div class="trip-table-total"><strong>Total Expenses:</strong> ₹<span id="trip-exp-total-disp">0.00</span></div>
-        </div>
 
-        <!-- Advances Table -->
-        <div id="trip-view-advances" style="display:none;">
-          <div style="font-size:0.8rem;font-weight:700;color:var(--txt2);margin-bottom:0.75rem;">Advance Payments</div>
-          <div style="overflow-x:auto;">
-            <table class="trip-table">
-              <thead><tr><th>Time</th><th>Family</th><th>Note</th><th>Amount</th><th class="no-print">Action</th></tr></thead>
-              <tbody id="trip-adv-body"><tr><td colspan="5" class="trip-empty-row">No advances yet.</td></tr></tbody>
-            </table>
-          </div>
-        </div>
-
-        <!-- Settlement Table -->
-        <div id="trip-view-settlement" style="display:none;">
-          <div style="font-size:0.8rem;font-weight:700;color:var(--txt2);margin-bottom:0.75rem;">Final Settlement</div>
-          <div style="overflow-x:auto;">
-            <table class="trip-table">
-              <thead><tr><th>Family</th><th>Members</th><th>Advance Paid</th><th>Share (Target)</th><th>Balance</th></tr></thead>
-              <tbody id="trip-settle-body"><tr><td colspan="5" class="trip-empty-row">Add families and expenses to see settlement.</td></tr></tbody>
-            </table>
-          </div>
-        </div>
+        </div><!-- end trip statement card -->
+      </div><!-- end trip-detail-view -->
+    </div><!-- end tab-events -->
 
     <!-- ── ABOUT TAB ── -->
     <div id="tab-about" class="tab">
@@ -1183,6 +1245,40 @@ function doGet(e) {
 <!-- CREATE EVENT MODAL -->
 <div class="modal-back" id="create-event-modal" style="display:none!important"></div>
 
+<!-- CREATE TRIP MODAL -->
+<div class="modal-back" id="create-trip-modal">
+  <div class="modal">
+    <h3>🗺️ Create New Trip</h3>
+    <p>Give your trip a name and we'll create a separate folder to track all its expenses.</p>
+    <div class="form-grid">
+      <div class="form-group" style="grid-column:1/-1"><label>Trip / Place Name</label>
+        <input type="text" id="ct-name" placeholder="e.g. Goa Trip, Ooty Vacation, Tirupati…"></div>
+      <div class="form-group"><label>Duration (Days)</label>
+        <input type="number" id="ct-days" placeholder="e.g. 3" min="1" max="365"></div>
+    </div>
+    <div class="form-group" style="margin-top:0.75rem;"><label>Pick an Icon</label>
+      <div class="emoji-picker">
+        <button class="emoji-btn active" data-e="✈️" onclick="selectTripEmoji(this)">✈️</button>
+        <button class="emoji-btn" data-e="🏖" onclick="selectTripEmoji(this)">🏖</button>
+        <button class="emoji-btn" data-e="🏔" onclick="selectTripEmoji(this)">🏔</button>
+        <button class="emoji-btn" data-e="🛕" onclick="selectTripEmoji(this)">🛕</button>
+        <button class="emoji-btn" data-e="🌴" onclick="selectTripEmoji(this)">🌴</button>
+        <button class="emoji-btn" data-e="🎉" onclick="selectTripEmoji(this)">🎉</button>
+        <button class="emoji-btn" data-e="🚗" onclick="selectTripEmoji(this)">🚗</button>
+        <button class="emoji-btn" data-e="🏕" onclick="selectTripEmoji(this)">🏕</button>
+        <button class="emoji-btn" data-e="🌊" onclick="selectTripEmoji(this)">🌊</button>
+        <button class="emoji-btn" data-e="🎡" onclick="selectTripEmoji(this)">🎡</button>
+        <button class="emoji-btn" data-e="🛤" onclick="selectTripEmoji(this)">🛤</button>
+        <button class="emoji-btn" data-e="🏙" onclick="selectTripEmoji(this)">🏙</button>
+      </div>
+    </div>
+    <div class="modal-btns">
+      <button class="btn-ghost" onclick="document.getElementById('create-trip-modal').classList.remove('show')">Cancel</button>
+      <button class="btn-add" onclick="createNewTrip()">Create Trip →</button>
+    </div>
+  </div>
+</div>
+
 <!-- CALCULATOR MODAL -->
 <div id="calc-modal">
   <div class="calc-box">
@@ -1209,13 +1305,19 @@ let debts=JSON.parse(localStorage.getItem('pet_debts')||'[]');
 let savings=JSON.parse(localStorage.getItem('pet_savings')||'[]');
 let events=JSON.parse(localStorage.getItem('pet_events')||'[]');
 let eventTx=JSON.parse(localStorage.getItem('pet_event_tx')||'{}');
-let tripData=JSON.parse(localStorage.getItem('pet_trip')||'{"families":[],"expenses":[],"advances":[]}');
+let tripData=JSON.parse(localStorage.getItem('pet_trip')||'{"trips":[]}');
+// Migrate old single-trip format
+if(tripData.families||tripData.expenses){
+  const old=tripData;
+  tripData={trips:[{id:Date.now(),name:'My First Trip',days:1,emoji:'✈️',
+    families:old.families||[],expenses:old.expenses||[],advances:old.advances||[]}]};
+  localStorage.setItem('pet_trip',JSON.stringify(tripData));
+}
+let currentTripId=null;
 let gsUrl=localStorage.getItem('pet_gs')||'';
 let period='month';
 const charts={};
 let currentTheme=localStorage.getItem('pet_theme')||'light';
-let currentEventId=null;
-let selectedEventType='Trip';
 let openSections={};
 
 /* ── INIT ── */
@@ -1256,7 +1358,7 @@ function launch(){
   setTimeout(()=>document.getElementById('intro').style.display='none',850);
   document.getElementById('app').classList.add('on');
   document.getElementById('user-chip').textContent=userName;
-  renderTracker();renderDebts();renderSavingsSummary();renderTripBook();
+  renderTracker();renderDebts();renderSavingsSummary();renderTripFolders();
 }
 
 /* ── TABS ── */
@@ -1266,7 +1368,7 @@ function switchTab(n,btn){
   document.getElementById('tab-'+n).classList.add('active');
   btn.classList.add('active');
   if(n==='analytics') renderAnalytics();
-  if(n==='events') renderTripBook();
+  if(n==='events') renderTripFolders();
 }
 function switchSubTab(n,btn){
   document.querySelectorAll('.sub-panel').forEach(p=>p.style.display='none');
@@ -1556,7 +1658,97 @@ function renderDebts(){
   }).join('');
 }
 
-/* ── TRIPBOOK PRO ── */
+/* ── TRIPBOOK PRO — MULTI-TRIP FOLDER SYSTEM ── */
+
+/* ─ Helpers ─ */
+function currentTrip(){return tripData.trips.find(t=>t.id===currentTripId)||null;}
+const TRIP_EMOJIS=['✈️','🏖','🏔','🛕','🌴','🎉','🚗','🏕','🌊','🎡','🛤','🏙'];
+
+/* ─ Trip List ─ */
+function renderTripFolders(){
+  const grid=document.getElementById('trip-folders-grid');
+  const empty=document.getElementById('trip-folders-empty');
+  const trips=tripData.trips||[];
+  if(!trips.length){grid.innerHTML='';empty.style.display='block';return;}
+  empty.style.display='none';
+  grid.innerHTML=[...trips].reverse().map(t=>{
+    const totalExp=(t.expenses||[]).reduce((s,e)=>s+e.amt,0);
+    const totalAdv=(t.advances||[]).reduce((s,a)=>s+a.amt,0);
+    const totalMem=(t.families||[]).reduce((s,f)=>s+f.count,0);
+    return`<div class="trip-folder-card" onclick="openTripDetail(${t.id})">
+      <div class="trip-folder-icon">${t.emoji||'✈️'}</div>
+      <div class="trip-folder-name">${esc(t.name)}</div>
+      <div class="trip-folder-days">📅 ${t.days} day${t.days>1?'s':''} &nbsp;·&nbsp; 👥 ${totalMem} member${totalMem!==1?'s':''}</div>
+      <div class="trip-folder-stats">
+        <div class="trip-folder-stat">Spent: <span style="color:var(--red)">₹${f2(totalExp)}</span></div>
+        <div class="trip-folder-stat">Advance: <span style="color:#0077b6">₹${f2(totalAdv)}</span></div>
+        <div class="trip-folder-stat">Entries: <span>${(t.expenses||[]).length+(t.advances||[]).length}</span></div>
+      </div>
+      <div class="trip-folder-footer">
+        <button class="trip-folder-open" onclick="event.stopPropagation();openTripDetail(${t.id})">Open →</button>
+        <button class="trip-folder-del" onclick="event.stopPropagation();deleteTrip(${t.id})">🗑 Delete</button>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+function openTripDetail(id){
+  currentTripId=id;
+  const t=currentTrip();if(!t) return;
+  document.getElementById('trip-list-view').style.display='none';
+  document.getElementById('trip-detail-view').style.display='block';
+  document.getElementById('trip-detail-name').textContent=(t.emoji||'✈️')+' '+t.name;
+  document.getElementById('trip-detail-meta').textContent=`📅 ${t.days} day${t.days>1?'s':''} · 👥 ${(t.families||[]).reduce((s,f)=>s+f.count,0)} members`;
+  document.getElementById('print-trip-name-header').textContent=(t.emoji||'✈️')+' '+t.name+' — Trip Statement';
+  document.getElementById('print-trip-meta-header').textContent=`${t.days} day${t.days>1?'s':''}  ·  Printed: ${new Date().toLocaleDateString('en-IN')}`;
+  // Reset to expense tab & expenses view
+  switchTripTab('expense');
+  switchTripView('expenses');
+  renderTripDetail();
+}
+
+function closeTripDetail(){
+  currentTripId=null;
+  document.getElementById('trip-detail-view').style.display='none';
+  document.getElementById('trip-list-view').style.display='block';
+  renderTripFolders();
+}
+
+function deleteTrip(id){
+  if(!confirm('Delete this trip and all its data?')) return;
+  tripData.trips=tripData.trips.filter(t=>t.id!==id);
+  save();renderTripFolders();showToast('🗑 Trip deleted');
+}
+
+/* ─ Create Trip Modal ─ */
+function openCreateTripModal(){
+  document.getElementById('create-trip-modal').classList.add('show');
+  document.getElementById('ct-name').value='';
+  document.getElementById('ct-days').value='';
+  // Select random emoji
+  const rnd=TRIP_EMOJIS[Math.floor(Math.random()*TRIP_EMOJIS.length)];
+  document.querySelectorAll('.emoji-btn').forEach(b=>b.classList.toggle('active',b.dataset.e===rnd));
+  selectedTripEmoji=rnd;
+}
+let selectedTripEmoji='✈️';
+function selectTripEmoji(btn){
+  document.querySelectorAll('.emoji-btn').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  selectedTripEmoji=btn.dataset.e;
+}
+function createNewTrip(){
+  const name=document.getElementById('ct-name').value.trim();
+  const days=parseInt(document.getElementById('ct-days').value)||1;
+  if(!name){showToast('⚠️ Enter a trip name');return;}
+  const trip={id:Date.now(),name,days,emoji:selectedTripEmoji,families:[],expenses:[],advances:[]};
+  tripData.trips.push(trip);
+  save();
+  document.getElementById('create-trip-modal').classList.remove('show');
+  showToast('✓ Trip created!');
+  openTripDetail(trip.id);
+}
+
+/* ─ Within a Trip ─ */
 function toggleTripSection(id){
   const el=document.getElementById(id);
   const chev=document.getElementById(id+'-chev');
@@ -1577,24 +1769,27 @@ function switchTripView(view){
     document.getElementById('tview-'+{expenses:'exp',advances:'adv',settlement:'settle'}[v]).classList.toggle('active',v===view);
   });
 }
+
 function addTripFamily(){
+  const t=currentTrip();if(!t) return;
   const name=document.getElementById('trip-fname').value.trim();
   const count=parseInt(document.getElementById('trip-fcount').value);
   if(!name){showToast('⚠️ Enter a family name');return;}
   if(!count||count<1){showToast('⚠️ Enter member count');return;}
-  if(tripData.families.find(f=>f.name.toLowerCase()===name.toLowerCase())){showToast('⚠️ Family already exists');return;}
-  tripData.families.push({id:Date.now(),name,count});
+  if(t.families.find(f=>f.name.toLowerCase()===name.toLowerCase())){showToast('⚠️ Family already exists');return;}
+  t.families.push({id:Date.now(),name,count});
   document.getElementById('trip-fname').value='';
   document.getElementById('trip-fcount').value='';
-  save();renderTripBook();
-  showToast('✓ Family added!');
-  syncSheet('trip_family',{id:Date.now(),familyName:name,count,user:userName,timestamp:new Date().toISOString()},'','');
+  save();renderTripDetail();showToast('✓ Family added!');
+  syncSheet('trip_family',{id:Date.now(),tripName:t.name,familyName:name,count,user:userName,timestamp:new Date().toISOString()},'','');
 }
 function removeTripFamily(id){
-  tripData.families=tripData.families.filter(f=>f.id!==id);
-  save();renderTripBook();showToast('🗑 Family removed');
+  const t=currentTrip();if(!t) return;
+  t.families=t.families.filter(f=>f.id!==id);
+  save();renderTripDetail();showToast('🗑 Family removed');
 }
 function addTripExpense(){
+  const t=currentTrip();if(!t) return;
   const amt=parseFloat(document.getElementById('trip-exp-amt').value);
   if(!amt||amt<=0){showToast('⚠️ Enter a valid amount');return;}
   const cat=getCatValue('trip-exp-cat','trip-exp-custom');
@@ -1602,14 +1797,14 @@ function addTripExpense(){
   const desc=document.getElementById('trip-exp-desc').value.trim();
   const time=new Date().toLocaleString('en-IN',{hour:'2-digit',minute:'2-digit',day:'2-digit',month:'2-digit'});
   const entry={id:Date.now(),time,cat,payer,amt,desc};
-  tripData.expenses.push(entry);
+  t.expenses.push(entry);
   document.getElementById('trip-exp-amt').value='';
   document.getElementById('trip-exp-desc').value='';
-  save();renderTripBook();
-  showToast('✓ Expense saved!');
-  syncSheet('trip_expense',{...entry,user:userName,timestamp:new Date().toISOString()},'sd-trip','st-trip');
+  save();renderTripDetail();showToast('✓ Expense saved!');
+  syncSheet('trip_expense',{...entry,tripName:t.name,user:userName,timestamp:new Date().toISOString()},'sd-trip','st-trip');
 }
 function addTripAdvance(){
+  const t=currentTrip();if(!t) return;
   const amt=parseFloat(document.getElementById('trip-adv-amt').value);
   const payer=document.getElementById('trip-adv-payer').value;
   const desc=document.getElementById('trip-adv-desc').value.trim();
@@ -1617,34 +1812,39 @@ function addTripAdvance(){
   if(!payer){showToast('⚠️ Select a family');return;}
   const time=new Date().toLocaleString('en-IN',{hour:'2-digit',minute:'2-digit',day:'2-digit',month:'2-digit'});
   const entry={id:Date.now(),time,payer,amt,desc};
-  tripData.advances.push(entry);
+  t.advances.push(entry);
   document.getElementById('trip-adv-amt').value='';
   document.getElementById('trip-adv-desc').value='';
-  save();renderTripBook();
-  showToast('✓ Advance saved!');
-  syncSheet('trip_advance',{...entry,user:userName,timestamp:new Date().toISOString()},'sd-trip-adv','st-trip-adv');
+  save();renderTripDetail();showToast('✓ Advance saved!');
+  syncSheet('trip_advance',{...entry,tripName:t.name,user:userName,timestamp:new Date().toISOString()},'sd-trip-adv','st-trip-adv');
 }
 function deleteTripItem(type,id){
-  if(type==='e') tripData.expenses=tripData.expenses.filter(x=>x.id!==id);
-  else tripData.advances=tripData.advances.filter(x=>x.id!==id);
-  save();renderTripBook();showToast('🗑 Deleted');
+  const t=currentTrip();if(!t) return;
+  if(type==='e') t.expenses=t.expenses.filter(x=>x.id!==id);
+  else t.advances=t.advances.filter(x=>x.id!==id);
+  save();renderTripDetail();showToast('🗑 Deleted');
 }
-function renderTripBook(){
-  const families=tripData.families;
-  const expenses=tripData.expenses;
-  const advances=tripData.advances;
+
+function renderTripDetail(){
+  const t=currentTrip();if(!t) return;
+  const families=t.families||[];
+  const expenses=t.expenses||[];
+  const advances=t.advances||[];
   const totalMembers=families.reduce((s,f)=>s+f.count,0);
   const totalExp=expenses.reduce((s,e)=>s+e.amt,0);
   const totalAdv=advances.reduce((s,a)=>s+a.amt,0);
   const cpp=totalMembers>0?totalExp/totalMembers:0;
 
-  // Update summary
-  document.getElementById('trip-member-count').textContent=totalMembers;
+  // Summary strip
   document.getElementById('trip-total-exp').textContent='₹'+f2(totalExp);
   document.getElementById('trip-cpp').textContent='₹'+f2(cpp);
   document.getElementById('trip-total-adv').textContent='₹'+f2(totalAdv);
+  document.getElementById('trip-member-count-badge').textContent=totalMembers+' member'+(totalMembers!==1?'s':'');
 
-  // Family list tags
+  // Detail header meta (live update)
+  document.getElementById('trip-detail-meta').textContent=`📅 ${t.days} day${t.days>1?'s':''} · 👥 ${totalMembers} member${totalMembers!==1?'s':''}`;
+
+  // Family tags
   const famList=document.getElementById('trip-fam-list');
   famList.innerHTML=families.length?families.map(f=>`<div class="trip-fam-tag">
     ${esc(f.name)} <span style="color:var(--txt3);font-weight:400;">(×${f.count})</span>
@@ -1654,52 +1854,64 @@ function renderTripBook(){
   // Payer dropdowns
   const expPayer=document.getElementById('trip-exp-payer');
   const advPayer=document.getElementById('trip-adv-payer');
-  const prevExpPayer=expPayer.value;
-  const prevAdvPayer=advPayer.value;
+  const prevE=expPayer.value,prevA=advPayer.value;
   expPayer.innerHTML='<option value="Common">Common Group</option>'+families.map(f=>`<option value="${esc(f.name)}">${esc(f.name)}</option>`).join('');
   advPayer.innerHTML='<option value="" disabled>Select Family</option>'+families.map(f=>`<option value="${esc(f.name)}">${esc(f.name)}</option>`).join('');
-  if(prevExpPayer) expPayer.value=prevExpPayer;
-  if(prevAdvPayer) advPayer.value=prevAdvPayer;
+  if(prevE) expPayer.value=prevE;
+  if(prevA) advPayer.value=prevA;
 
   // Expense table
-  const expBody=document.getElementById('trip-exp-body');
-  expBody.innerHTML=expenses.length?expenses.map((e,i)=>`<tr>
+  document.getElementById('trip-exp-body').innerHTML=expenses.length?expenses.map(e=>`<tr>
     <td>${esc(e.time)}</td><td>${esc(e.payer)}</td><td>${esc(e.cat)}</td>
     <td>₹${f2(e.amt)}</td><td>${esc(e.desc||'—')}</td>
     <td class="no-print"><button onclick="deleteTripItem('e',${e.id})" style="border:none;color:var(--red);cursor:pointer;background:none;font-size:1rem;">✖</button></td>
   </tr>`).join(''):'<tr><td colspan="6" class="trip-empty-row">No expenses yet.</td></tr>';
+
+  // Share per person
   document.getElementById('trip-exp-total-disp').textContent=f2(totalExp);
+  document.getElementById('trip-share-per-person').textContent=f2(cpp);
+  document.getElementById('trip-spp-note').textContent=totalMembers>0?`(₹${f2(totalExp)} ÷ ${totalMembers} persons)`:'(add families to calculate)';
 
   // Advance table
-  const advBody=document.getElementById('trip-adv-body');
-  advBody.innerHTML=advances.length?advances.map(a=>`<tr>
+  document.getElementById('trip-adv-body').innerHTML=advances.length?advances.map(a=>`<tr>
     <td>${esc(a.time)}</td><td>${esc(a.payer)}</td><td>${esc(a.desc||'—')}</td>
     <td>₹${f2(a.amt)}</td>
     <td class="no-print"><button onclick="deleteTripItem('a',${a.id})" style="border:none;color:var(--red);cursor:pointer;background:none;font-size:1rem;">✖</button></td>
   </tr>`).join(''):'<tr><td colspan="5" class="trip-empty-row">No advances yet.</td></tr>';
 
-  // Settlement table
+  // Settlement
   const settleBody=document.getElementById('trip-settle-body');
   if(!families.length){
-    settleBody.innerHTML='<tr><td colspan="5" class="trip-empty-row">Add families and expenses to see settlement.</td></tr>';
+    settleBody.innerHTML='<tr><td colspan="5" class="trip-empty-row">Add families to see settlement.</td></tr>';
   } else {
     settleBody.innerHTML=families.map(f=>{
       const paid=advances.filter(a=>a.payer===f.name).reduce((s,a)=>s+a.amt,0);
       const target=cpp*f.count;
       const bal=target-paid;
-      let balHtml;
-      if(Math.abs(bal)<0.5) balHtml=`<span class="settle-ok">✓ Settled</span>`;
-      else if(bal>0) balHtml=`<span class="settle-pay">Pay ₹${f2(bal)}</span>`;
-      else balHtml=`<span class="settle-refund">Refund ₹${f2(Math.abs(bal))}</span>`;
-      return`<tr>
-        <td><strong>${esc(f.name)}</strong></td>
-        <td>${f.count}</td>
-        <td>₹${f2(paid)}</td>
-        <td>₹${f2(target)}</td>
-        <td>${balHtml}</td>
-      </tr>`;
+      let balHtml=Math.abs(bal)<0.5?`<span class="settle-ok">✓ Settled</span>`:
+        bal>0?`<span class="settle-pay">Pay ₹${f2(bal)}</span>`:`<span class="settle-refund">Refund ₹${f2(Math.abs(bal))}</span>`;
+      return`<tr><td><strong>${esc(f.name)}</strong></td><td>${f.count}</td><td>₹${f2(paid)}</td><td>₹${f2(target)}</td><td>${balHtml}</td></tr>`;
     }).join('');
   }
+}
+
+/* ─ Print — only the statement card ─ */
+function printTripStatement(){
+  const t=currentTrip();
+  if(!t){showToast('⚠️ No trip open');return;}
+  // Show all views temporarily for printing
+  const views=['expenses','advances','settlement'];
+  const prevVis={};
+  views.forEach(v=>{
+    const el=document.getElementById('trip-view-'+v);
+    prevVis[v]=el.style.display;
+    el.style.display='block';
+  });
+  window.print();
+  // Restore
+  setTimeout(()=>views.forEach(v=>{
+    document.getElementById('trip-view-'+v).style.display=prevVis[v];
+  }),500);
 }
 
 /* ── CALCULATOR ── */
@@ -1708,11 +1920,12 @@ function toggleCalcModal(show){
 }
 function cIn(v){
   const s=document.getElementById('calc-screen');
-  s.value+=(s.value==='Err'?'':'')+v;
+  if(s.value==='Err') s.value='';
+  s.value+=v;
 }
 function evalCalc(){
   const s=document.getElementById('calc-screen');
-  try{s.value=eval(s.value);}catch{s.value='Err';}
+  try{s.value=Function('"use strict";return ('+s.value+')')();}catch{s.value='Err';}
 }
 document.addEventListener('click',e=>{
   if(e.target===document.getElementById('calc-modal')) toggleCalcModal(false);
@@ -1917,6 +2130,7 @@ function fd(s){if(!s)return'';const d=new Date(s+'T00:00:00');return d.toLocaleD
 function showToast(msg){const t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');clearTimeout(t._t);t._t=setTimeout(()=>t.classList.remove('show'),2800);}
 
 document.getElementById('gs-modal').addEventListener('click',function(e){if(e.target===this)this.classList.remove('show');});
+document.getElementById('create-trip-modal').addEventListener('click',function(e){if(e.target===this)this.classList.remove('show');});
 </script>
 </body>
 </html>
