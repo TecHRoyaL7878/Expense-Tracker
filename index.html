@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <!-- PWA -->
-<link rel="manifest" href="/Expense-Tracker-2.0/manifest.json">
+<link rel="manifest" href="/Expense-Tracker/manifest.json">
 <meta name="theme-color" content="#03045e">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-capable" content="yes">
@@ -2168,8 +2168,9 @@ document.getElementById('create-trip-modal').addEventListener('click',function(e
 <script>
   if ('serviceWorker' in navigator) {
     window.addEventListener('load', () => {
-      navigator.serviceWorker.register('/Expense-Tracker-2.0/sw.js', {
-        scope: '/Expense-Tracker-2.0/'
+      // Updated path and scope from 'Expense-Tracker-2.0' to 'Expense-Tracker'
+      navigator.serviceWorker.register('/Expense-Tracker/sw.js', {
+        scope: '/Expense-Tracker/'
       }).then(reg => {
         console.log('SW registered, scope:', reg.scope);
       }).catch(err => {
