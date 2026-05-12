@@ -1,13 +1,11 @@
 const CACHE_NAME = 'expense-tracker-v3';
-const BASE = '/Expense-Tracker-2.0';
+const BASE = '/Expense-Tracker'; // Changed from Expense-Tracker-2.0
 
-// Everything your app needs to work offline
 const PRECACHE_URLS = [
   BASE + '/',
   BASE + '/index.html',
   BASE + '/manifest.json',
   BASE + '/expense_app_icon_512x512.png',
-  // External CDN assets — cached on first use
   'https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Space+Grotesk:wght@400;500;600;700&display=swap',
   'https://cdn.jsdelivr.net/npm/chart.js'
 ];
